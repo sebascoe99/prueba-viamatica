@@ -25,6 +25,14 @@ public static class AttentionStatuses
     public const int Cancelado = 4;
 }
 
+public static class ContractStatuses
+{
+    public const string Vigente = "VIG";
+    public const string Sustituido = "SUS";
+    public const string RenovacionServicio = "REN";
+    public const string Cancelado = "CAN";
+}
+
 public static class UserStatuses
 {
     public const string Activo = "ACT";

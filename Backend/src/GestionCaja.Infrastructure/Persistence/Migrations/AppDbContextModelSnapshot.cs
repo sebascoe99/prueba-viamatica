@@ -320,6 +320,187 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                     b.ToTable("client", (string)null);
                 });
 
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Contract", b =>
+                {
+                    b.Property<int>("ContractId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("contract_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContractId"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer")
+                        .HasColumnName("client_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("end_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("MethodPaymentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("method_payment_id");
+
+                    b.Property<int?>("PreviousContractId")
+                        .HasColumnType("integer")
+                        .HasColumnName("previous_contract_id");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_id");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("start_date");
+
+                    b.Property<string>("StatusContractId")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)")
+                        .HasColumnName("status_contract_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("ContractId")
+                        .HasName("pk_contract");
+
+                    b.HasIndex("MethodPaymentId")
+                        .HasDatabaseName("ix_contract_method_payment_id");
+
+                    b.HasIndex("PreviousContractId")
+                        .HasDatabaseName("ix_contract_previous_contract_id");
+
+                    b.HasIndex("ServiceId")
+                        .HasDatabaseName("ix_contract_service_id");
+
+                    b.HasIndex("StatusContractId")
+                        .HasDatabaseName("ix_contract_status_contract_id");
+
+                    b.HasIndex("ClientId", "StatusContractId")
+                        .HasDatabaseName("ix_contract_client_id_status_contract_id");
+
+                    b.ToTable("contract", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_contract_dates", "end_date >= start_date");
+                        });
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Device", b =>
+                {
+                    b.Property<int>("DeviceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("device_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeviceId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("DeviceName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("device_name");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("DeviceId")
+                        .HasName("pk_device");
+
+                    b.HasIndex("ServiceId")
+                        .HasDatabaseName("ix_device_service_id");
+
+                    b.ToTable("device", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DeviceId = 1,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "Router WiFi 5",
+                            IsDeleted = false,
+                            ServiceId = 1
+                        },
+                        new
+                        {
+                            DeviceId = 2,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "ONT fibra óptica",
+                            IsDeleted = false,
+                            ServiceId = 1
+                        },
+                        new
+                        {
+                            DeviceId = 3,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "Router WiFi 6",
+                            IsDeleted = false,
+                            ServiceId = 2
+                        },
+                        new
+                        {
+                            DeviceId = 4,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "ONT fibra óptica",
+                            IsDeleted = false,
+                            ServiceId = 2
+                        },
+                        new
+                        {
+                            DeviceId = 5,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "Router WiFi 6 empresarial",
+                            IsDeleted = false,
+                            ServiceId = 3
+                        },
+                        new
+                        {
+                            DeviceId = 6,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "ONT fibra óptica",
+                            IsDeleted = false,
+                            ServiceId = 3
+                        },
+                        new
+                        {
+                            DeviceId = 7,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceName = "Repetidor mesh",
+                            IsDeleted = false,
+                            ServiceId = 3
+                        });
+                });
+
             modelBuilder.Entity("GestionCaja.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -370,6 +551,117 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasName("pk_menu");
 
                     b.ToTable("menu", (string)null);
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.MethodPayment", b =>
+                {
+                    b.Property<int>("MethodPaymentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("method_payment_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("description");
+
+                    b.HasKey("MethodPaymentId")
+                        .HasName("pk_methodpayment");
+
+                    b.ToTable("methodpayment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            MethodPaymentId = 1,
+                            Description = "Efectivo"
+                        },
+                        new
+                        {
+                            MethodPaymentId = 2,
+                            Description = "Tarjeta de crédito"
+                        },
+                        new
+                        {
+                            MethodPaymentId = 3,
+                            Description = "Tarjeta de débito"
+                        },
+                        new
+                        {
+                            MethodPaymentId = 4,
+                            Description = "Transferencia bancaria"
+                        });
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer")
+                        .HasColumnName("client_id");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("integer")
+                        .HasColumnName("contract_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("MethodPaymentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("method_payment_id");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("payment_date");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserCashierId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_cashier_id");
+
+                    b.HasKey("PaymentId")
+                        .HasName("pk_payments");
+
+                    b.HasIndex("ContractId")
+                        .HasDatabaseName("ix_payments_contract_id");
+
+                    b.HasIndex("MethodPaymentId")
+                        .HasDatabaseName("ix_payments_method_payment_id");
+
+                    b.HasIndex("ClientId", "PaymentDate")
+                        .HasDatabaseName("ix_payments_client_id_payment_date");
+
+                    b.HasIndex("UserCashierId", "PaymentDate")
+                        .HasDatabaseName("ix_payments_user_cashier_id_payment_date");
+
+                    b.ToTable("payments", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_payments_amount", "amount > 0");
+                        });
                 });
 
             modelBuilder.Entity("GestionCaja.Domain.Entities.Rol", b =>
@@ -453,6 +745,147 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_rolmenu_menu_id");
 
                     b.ToTable("rolmenu", (string)null);
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Service", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("service_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ServiceId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean")
+                        .HasColumnName("active");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("price");
+
+                    b.Property<string>("ServiceDescription")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("service_description");
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("service_name");
+
+                    b.Property<int>("SpeedMbps")
+                        .HasColumnType("integer")
+                        .HasColumnName("speed_mbps");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("ServiceId")
+                        .HasName("pk_service");
+
+                    b.HasIndex("ServiceName")
+                        .IsUnique()
+                        .HasDatabaseName("ix_service_service_name");
+
+                    b.ToTable("service", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_service_price", "price >= 0");
+
+                            t.HasCheckConstraint("ck_service_speed", "speed_mbps > 0");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            ServiceId = 1,
+                            Active = true,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Price = 25.00m,
+                            ServiceDescription = "Internet fibra óptica para el hogar",
+                            ServiceName = "Plan Hogar 100",
+                            SpeedMbps = 100
+                        },
+                        new
+                        {
+                            ServiceId = 2,
+                            Active = true,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Price = 35.00m,
+                            ServiceDescription = "Internet fibra óptica para streaming y teletrabajo",
+                            ServiceName = "Plan Hogar 300",
+                            SpeedMbps = 300
+                        },
+                        new
+                        {
+                            ServiceId = 3,
+                            Active = true,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Price = 60.00m,
+                            ServiceDescription = "Internet fibra óptica para pequeños negocios",
+                            ServiceName = "Plan Pyme 600",
+                            SpeedMbps = 600
+                        });
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.StatusContract", b =>
+                {
+                    b.Property<string>("StatusId")
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)")
+                        .HasColumnName("status_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("description");
+
+                    b.HasKey("StatusId")
+                        .HasName("pk_statuscontract");
+
+                    b.ToTable("statuscontract", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = "VIG",
+                            Description = "Contrato vigente"
+                        },
+                        new
+                        {
+                            StatusId = "SUS",
+                            Description = "Contrato sustituido"
+                        },
+                        new
+                        {
+                            StatusId = "REN",
+                            Description = "Renovación de servicio"
+                        },
+                        new
+                        {
+                            StatusId = "CAN",
+                            Description = "Contrato cancelado"
+                        });
                 });
 
             modelBuilder.Entity("GestionCaja.Domain.Entities.Turn", b =>
@@ -787,6 +1220,104 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                     b.Navigation("CurrentUser");
                 });
 
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Contract", b =>
+                {
+                    b.HasOne("GestionCaja.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_contract_client_client_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.MethodPayment", "MethodPayment")
+                        .WithMany()
+                        .HasForeignKey("MethodPaymentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_contract_method_payments_method_payment_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.Contract", "PreviousContract")
+                        .WithMany()
+                        .HasForeignKey("PreviousContractId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_contract_contract_previous_contract_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_contract_services_service_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.StatusContract", "StatusContract")
+                        .WithMany()
+                        .HasForeignKey("StatusContractId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_contract_statuscontract_status_contract_id");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("MethodPayment");
+
+                    b.Navigation("PreviousContract");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("StatusContract");
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Device", b =>
+                {
+                    b.HasOne("GestionCaja.Domain.Entities.Service", "Service")
+                        .WithMany("Devices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_device_services_service_id");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("GestionCaja.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_payments_clients_client_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.Contract", "Contract")
+                        .WithMany("Payments")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_payments_contracts_contract_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.MethodPayment", "MethodPayment")
+                        .WithMany()
+                        .HasForeignKey("MethodPaymentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_payments_method_payments_method_payment_id");
+
+                    b.HasOne("GestionCaja.Domain.Entities.User", "UserCashier")
+                        .WithMany()
+                        .HasForeignKey("UserCashierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_payments_users_user_cashier_id");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Contract");
+
+                    b.Navigation("MethodPayment");
+
+                    b.Navigation("UserCashier");
+                });
+
             modelBuilder.Entity("GestionCaja.Domain.Entities.RolMenu", b =>
                 {
                     b.HasOne("GestionCaja.Domain.Entities.Menu", "Menu")
@@ -887,6 +1418,11 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                     b.Navigation("UserCashes");
                 });
 
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Contract", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
             modelBuilder.Entity("GestionCaja.Domain.Entities.Menu", b =>
                 {
                     b.Navigation("RolMenus");
@@ -897,6 +1433,11 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                     b.Navigation("RolMenus");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("GestionCaja.Domain.Entities.Service", b =>
+                {
+                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("GestionCaja.Domain.Entities.Turn", b =>

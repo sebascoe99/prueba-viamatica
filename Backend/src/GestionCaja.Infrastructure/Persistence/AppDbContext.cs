@@ -24,6 +24,13 @@ public class AppDbContext : DbContext
     public DbSet<Attention> Attentions => Set<Attention>();
     public DbSet<Client> Clients => Set<Client>();
 
+    public DbSet<Service> Services => Set<Service>();
+    public DbSet<Device> Devices => Set<Device>();
+    public DbSet<StatusContract> StatusContracts => Set<StatusContract>();
+    public DbSet<MethodPayment> MethodPayments => Set<MethodPayment>();
+    public DbSet<Contract> Contracts => Set<Contract>();
+    public DbSet<Payment> Payments => Set<Payment>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Aplica todas las clases IEntityTypeConfiguration de este proyecto (carpeta Configurations)
