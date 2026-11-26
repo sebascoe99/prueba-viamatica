@@ -7,7 +7,6 @@ public static class Roles
     public const int Cajero = 3;
 }
 
-/// <summary>Nombres de rol tal como viajan en el token, para usar en [Authorize(Roles = ...)].</summary>
 public static class RoleNames
 {
     public const string Administrador = "Administrador";

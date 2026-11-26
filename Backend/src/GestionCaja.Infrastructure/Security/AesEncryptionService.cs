@@ -4,10 +4,6 @@ using GestionCaja.Application.Common.Interfaces;
 
 namespace GestionCaja.Infrastructure.Security;
 
-/// <summary>
-/// Cifrado simétrico AES-256 (CBC). Cada valor usa un IV aleatorio que se guarda
-/// junto al texto cifrado, así el mismo dato nunca produce el mismo resultado.
-/// </summary>
 public class AesEncryptionService : IEncryptionService
 {
     private const int IvSize = 16;
@@ -15,7 +11,6 @@ public class AesEncryptionService : IEncryptionService
 
     public AesEncryptionService(string secret)
     {
-        // SHA-256 convierte la clave configurada en los 32 bytes exactos que exige AES-256
         _key = SHA256.HashData(Encoding.UTF8.GetBytes(secret));
     }
 

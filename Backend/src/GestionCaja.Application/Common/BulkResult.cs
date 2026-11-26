@@ -1,6 +1,5 @@
 namespace GestionCaja.Application.Common;
 
-/// <summary>Resultado de una carga masiva: resumen y detalle fila por fila.</summary>
 public class BulkResult
 {
     public int Total { get; set; }

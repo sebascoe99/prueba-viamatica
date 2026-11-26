@@ -1,0 +1,43 @@
+<div class="gc-shell">
+  <aside class="gc-sidebar" [class.open]="sidebarOpen">
+    <div class="gc-brand">
+      <span class="material-icons">router</span>
+      <span>Gestión de Caja</span>
+    </div>
+
+    <nav class="nav flex-column">
+      <a
+        *ngFor="let item of menu"
+        class="nav-link"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        (click)="sidebarOpen = false"
+      >
+        <span class="material-icons">{{ item.icon }}</span>
+        <span>{{ item.name }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="gc-main">
+    <header class="gc-topbar">
+      <button type="button" class="btn btn-light btn-icon d-lg-none" (click)="sidebarOpen = !sidebarOpen" aria-label="Menú">
+        <span class="material-icons">menu</span>
+      </button>
+
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="text-end lh-sm">
+          <div class="fw-semibold">{{ session?.fullName }}</div>
+          <small class="text-muted">{{ session?.userName }} · {{ session?.rolName }}</small>
+        </div>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="logout()">
+          <span class="material-icons">logout</span> Salir
+        </button>
+      </div>
+    </header>
+
+    <main class="gc-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

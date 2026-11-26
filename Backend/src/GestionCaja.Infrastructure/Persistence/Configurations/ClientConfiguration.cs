@@ -19,8 +19,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(c => c.Address).HasMaxLength(100).IsRequired();
         builder.Property(c => c.ReferenceAddress).HasMaxLength(100).IsRequired();
 
-        // Un cliente solo puede registrarse una vez: se valida por su identificación.
-        // También es el índice que usa la búsqueda del cajero.
         builder.HasIndex(c => c.Identification).IsUnique();
 
         builder.HasQueryFilter(c => !c.IsDeleted);

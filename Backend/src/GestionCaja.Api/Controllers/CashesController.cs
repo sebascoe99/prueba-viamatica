@@ -17,8 +17,6 @@ public class CashesController : ControllerBase
         _cashService = cashService;
     }
 
-    // ----- Mantenimiento de cajas y asignación de cajeros (administrador y gestor) -----
-
     [HttpGet]
     [Authorize(Roles = RoleNames.AdministradorOGestor)]
     public async Task<ActionResult<List<CashResponse>>> List(CancellationToken cancellationToken)
@@ -79,8 +77,6 @@ public class CashesController : ControllerBase
     {
         return Ok(await _cashService.UnassignCashierAsync(id, userId, cancellationToken));
     }
-
-    // ----- Operación de la caja (cajero) -----
 
     /// <summary>Cajas a las que está asignado el cajero autenticado.</summary>
     [HttpGet("mine")]

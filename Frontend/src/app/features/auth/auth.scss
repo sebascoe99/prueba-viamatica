@@ -1,0 +1,17 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--gc-primary) 0%, var(--gc-primary-dark) 100%);
+}
+
+.auth-card {
+  width: min(420px, 100%);
+}
+
+.auth-logo {
+  font-size: 2.6rem;
+  color: var(--gc-primary);
+}

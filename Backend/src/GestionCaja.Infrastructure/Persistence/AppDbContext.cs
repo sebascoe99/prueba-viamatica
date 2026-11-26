@@ -34,7 +34,6 @@ public class AppDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Aplica todas las clases IEntityTypeConfiguration de este proyecto (carpeta Configurations)
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }

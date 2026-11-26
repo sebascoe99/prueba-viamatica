@@ -17,7 +17,6 @@ public class Payment : BaseEntity
     public int MethodPaymentId { get; set; }
     public MethodPayment MethodPayment { get; set; } = null!;
 
-    // Cajero que registró el pago
     public int UserCashierId { get; set; }
     public User UserCashier { get; set; } = null!;
 }

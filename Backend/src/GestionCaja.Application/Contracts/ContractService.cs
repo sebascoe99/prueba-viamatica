@@ -23,7 +23,6 @@ public interface IContractService
 
 public class ContractService : IContractService
 {
-    // Un contrato está "en curso" si es el original vigente o uno creado por renovación de servicio
     private static readonly string[] ActiveStatuses = [ContractStatuses.Vigente, ContractStatuses.RenovacionServicio];
 
     private readonly IApplicationDbContext _db;
@@ -129,7 +128,6 @@ public class ContractService : IContractService
         };
 
         _db.Contracts.Add(renewed);
-        // Un solo SaveChanges: el cambio de estado y el nuevo contrato se guardan en la misma transacción
         await _db.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("ACTUALIZACIÓN de contrato {ContractId}: sustituido por el contrato {NewContractId} (cambio de servicio) por {CurrentUser}",

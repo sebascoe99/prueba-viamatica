@@ -8,9 +8,6 @@ public class JwtSettings
     public int ExpirationMinutes { get; set; } = 60;
 }
 
-/// <summary>
-/// Nombres de los claims dentro del token. Sus valores viajan cifrados.
-/// </summary>
 public static class JwtClaimNames
 {
     public const string UserId = "uid";

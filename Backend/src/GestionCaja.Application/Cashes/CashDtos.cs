@@ -30,7 +30,6 @@ public class CashResponse
     public string CashDescription { get; set; } = string.Empty;
     public bool Active { get; set; }
 
-    // Cajero que la está operando en este momento (null = libre)
     public int? CurrentUserId { get; set; }
     public string? CurrentUserName { get; set; }
     public DateTime? OpenedAt { get; set; }

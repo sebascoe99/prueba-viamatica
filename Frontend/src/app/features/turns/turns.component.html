@@ -1,0 +1,103 @@
+<h1 class="page-title">Asignación de turnos</h1>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h2 class="h6 text-muted mb-3">Nuevo turno</h2>
+    <form class="row g-2 align-items-start" (ngSubmit)="create()" novalidate>
+      <div class="col-md-5">
+        <label for="attentionType" class="form-label">Tipo de atención</label>
+        <select id="attentionType" class="form-select" [(ngModel)]="model.attentionTypeId" name="attentionTypeId" [class.is-invalid]="submitted && !model.attentionTypeId">
+          <option value="">Seleccione</option>
+          <option *ngFor="let type of attentionTypes" [value]="type.id">{{ type.id }} - {{ type.description }}</option>
+        </select>
+        <div class="field-error" *ngIf="submitted && !model.attentionTypeId">Seleccione el tipo de atención.</div>
+      </div>
+      <div class="col-md-4">
+        <label for="cash" class="form-label">Caja</label>
+        <select id="cash" class="form-select" [(ngModel)]="model.cashId" name="cashId" [class.is-invalid]="submitted && !model.cashId">
+          <option value="">Seleccione</option>
+          <option *ngFor="let cash of cashes" [value]="cash.cashId">{{ cash.cashDescription }}</option>
+        </select>
+        <div class="field-error" *ngIf="submitted && !model.cashId">Seleccione la caja.</div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label d-none d-md-block">&nbsp;</label>
+        <button type="submit" class="btn btn-primary w-100"><span class="material-icons">confirmation_number</span> Asignar turno</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <h2 class="h6 text-muted mb-0">
+        Turnos asignados hoy
+        <span class="badge text-bg-warning ms-2">{{ pendingCount }} pendientes</span>
+        <span class="badge text-bg-success ms-1">{{ attendedCount }} atendidos</span>
+      </h2>
+      <div class="d-flex gap-2">
+        <select class="form-select form-select-sm w-auto" [(ngModel)]="filterCashId" (ngModelChange)="load()" aria-label="Filtrar por caja">
+          <option value="">Todas las cajas</option>
+          <option *ngFor="let cash of cashes" [value]="cash.cashId">{{ cash.cashDescription }}</option>
+        </select>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="load()" title="Actualizar"><span class="material-icons">refresh</span></button>
+      </div>
+    </div>
+
+    <p class="text-muted mb-0" *ngIf="turns.length === 0">Todavía no hay turnos asignados hoy.</p>
+
+    <div class="table-responsive" *ngIf="turns.length > 0">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Turno</th>
+            <th>Tipo de atención</th>
+            <th>Caja</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Cliente</th>
+            <th>Cajero</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turn of turns">
+            <td class="fw-semibold">{{ turn.description }}</td>
+            <td>{{ turn.attentionTypeDescription }}</td>
+            <td>{{ turn.cashDescription }}</td>
+            <td>{{ turn.date | date: 'HH:mm' }}</td>
+            <td><span class="badge" [ngClass]="statusBadge(turn.statusId)">{{ turn.statusDescription }}</span></td>
+            <td>{{ turn.clientName || '-' }}</td>
+            <td>{{ turn.cashierUserName || '-' }}</td>
+            <td class="text-end text-nowrap">
+              <ng-container *ngIf="turn.statusId === status.Pendiente">
+                <button type="button" class="btn btn-outline-primary btn-sm btn-icon me-1" title="Reasignar a otra caja" (click)="openReassign(turn)">
+                  <span class="material-icons">swap_horiz</span>
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm btn-icon" title="Eliminar" (click)="remove(turn)"><span class="material-icons">delete</span></button>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-modal *ngIf="reassigning" [title]="'Reasignar turno ' + reassigning.description" (closed)="reassigning = null">
+  <p class="text-muted">Caja actual: <strong>{{ reassigning.cashDescription }}</strong></p>
+  <div class="mb-3">
+    <label for="reassignCash" class="form-label">Caja de destino</label>
+    <select id="reassignCash" class="form-select" [(ngModel)]="reassignCashId">
+      <option value="">Seleccione</option>
+      <ng-container *ngFor="let cash of cashes">
+        <option *ngIf="cash.cashId !== reassigning.cashId" [value]="cash.cashId">{{ cash.cashDescription }}</option>
+      </ng-container>
+    </select>
+  </div>
+  <div class="d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-outline-secondary" (click)="reassigning = null">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="reassign()">Reasignar</button>
+  </div>
+</app-modal>

@@ -2,9 +2,6 @@ using GestionCaja.Domain.Common;
 
 namespace GestionCaja.Domain.Entities;
 
-/// <summary>
-/// Plan de internet que la empresa ofrece.
-/// </summary>
 public class Service : BaseEntity
 {
     public int ServiceId { get; set; }
@@ -14,6 +11,5 @@ public class Service : BaseEntity
     public decimal Price { get; set; }
     public bool Active { get; set; } = true;
 
-    // Equipos que incluye el plan (router, ONT, etc.)
     public ICollection<Device> Devices { get; set; } = new List<Device>();
 }

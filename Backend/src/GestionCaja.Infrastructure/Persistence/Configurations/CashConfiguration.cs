@@ -13,7 +13,6 @@ public class CashConfiguration : IEntityTypeConfiguration<Cash>
 
         builder.Property(c => c.CashDescription).HasMaxLength(50).IsRequired();
 
-        // En PostgreSQL se apoya en la columna de sistema xmin, que cambia en cada actualización
         builder.Property(c => c.Version).IsRowVersion();
 
         builder.HasOne(c => c.CurrentUser)
@@ -21,7 +20,6 @@ public class CashConfiguration : IEntityTypeConfiguration<Cash>
             .HasForeignKey(c => c.CurrentUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Un cajero solo puede estar operando una caja a la vez
         builder.HasIndex(c => c.CurrentUserId)
             .IsUnique()
             .HasFilter("current_user_id IS NOT NULL");

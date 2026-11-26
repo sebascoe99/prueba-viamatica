@@ -4,9 +4,6 @@ using GestionCaja.Infrastructure.Security;
 
 namespace GestionCaja.Api.Services;
 
-/// <summary>
-/// Lee los datos del usuario autenticado desde los claims (ya descifrados) de la petición actual.
-/// </summary>
 public class CurrentUser : ICurrentUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

@@ -45,7 +45,6 @@ public class UserService : IUserService
 
     public async Task<List<UserResponse>> ListAsync(int? rolId, string? statusId, string? search, CancellationToken cancellationToken = default)
     {
-        // El administrador ve todos los usuarios; el gestor solo los que él creó
         int? createdBy = _currentUser.RolId == Roles.Gestor ? _currentUser.UserId : null;
 
         var users = await _userRepository.ListAsync(rolId, statusId, search, createdBy, cancellationToken);
@@ -100,7 +99,6 @@ public class UserService : IUserService
     {
         var result = new BulkResult { Total = rows.Count };
 
-        // Cada fila se procesa de forma independiente: una fila con problemas no detiene a las demás
         for (var i = 0; i < rows.Count; i++)
         {
             var row = rows[i];
@@ -213,7 +211,6 @@ public class UserService : IUserService
         EnsureManageableRol(user.RolId);
 
         user.SessionActive = false;
-        // Remove() termina como eliminación lógica: lo intercepta AppDbContext.SaveChangesAsync
         _userRepository.Remove(user);
         await _userRepository.SaveChangesAsync(cancellationToken);
 
@@ -232,7 +229,6 @@ public class UserService : IUserService
             throw new AppException(genericError);
         }
 
-        // Se verifica la identidad comparando contra los datos descifrados del usuario
         var sameIdentification = _encryptionService.Decrypt(user.Identification) == request.Identification.Trim();
         var sameEmail = string.Equals(_encryptionService.Decrypt(user.Email), request.Email.Trim(), StringComparison.OrdinalIgnoreCase);
 
@@ -251,7 +247,6 @@ public class UserService : IUserService
         user.FailedAttempts = 0;
         user.SessionActive = false;
 
-        // Si estaba bloqueado por intentos fallidos, recupera el acceso al demostrar su identidad
         if (user.UserStatusId == UserStatuses.Bloqueado)
         {
             user.UserStatusId = UserStatuses.Activo;
@@ -270,7 +265,6 @@ public class UserService : IUserService
             throw new AppException("El usuario no existe", 404);
         }
 
-        // Un gestor solo puede consultar los usuarios que él creó
         if (_currentUser.RolId == Roles.Gestor && user.UserCreate != _currentUser.UserId)
         {
             throw new AppException("El usuario no existe", 404);

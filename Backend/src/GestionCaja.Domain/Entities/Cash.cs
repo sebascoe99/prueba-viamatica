@@ -8,14 +8,10 @@ public class Cash : BaseEntity
     public string CashDescription { get; set; } = string.Empty;
     public bool Active { get; set; } = true;
 
-    // Cajero que está operando la caja en este momento (null = caja libre).
-    // Con esto se controla que los 2 cajeros asignados no la usen al mismo tiempo.
     public int? CurrentUserId { get; set; }
     public User? CurrentUser { get; set; }
     public DateTime? OpenedAt { get; set; }
 
-    // Versión de la fila para control de concurrencia optimista: si dos cajeros intentan
-    // abrir la misma caja a la vez, solo el primero guarda; el segundo recibe un error.
     public uint Version { get; set; }
 
     public ICollection<UserCash> UserCashes { get; set; } = new List<UserCash>();

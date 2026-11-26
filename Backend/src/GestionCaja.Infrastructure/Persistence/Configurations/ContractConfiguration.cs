@@ -72,13 +72,11 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .HasForeignKey(c => c.MethodPaymentId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Relación del contrato consigo mismo: el nuevo apunta al que sustituyó
         builder.HasOne(c => c.PreviousContract)
             .WithMany()
             .HasForeignKey(c => c.PreviousContractId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Contratos de un cliente filtrados por estado (pantalla de procesos de caja)
         builder.HasIndex(c => new { c.ClientId, c.StatusContractId });
         builder.HasIndex(c => c.ServiceId);
         builder.HasIndex(c => c.PreviousContractId);
@@ -118,7 +116,6 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .HasForeignKey(p => p.UserCashierId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Historial de pagos de un cliente ordenado por fecha
         builder.HasIndex(p => new { p.ClientId, p.PaymentDate });
         builder.HasIndex(p => p.ContractId);
         builder.HasIndex(p => new { p.UserCashierId, p.PaymentDate });

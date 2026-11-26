@@ -26,7 +26,6 @@ public class WelcomeResponse
     public int TurnsAttendedToday { get; set; }
     public string TurnsAttendedScope { get; set; } = string.Empty;
 
-    // Para el gestor: usuarios que creó y siguen pendientes. Para el administrador: todos los pendientes.
     public List<PendingUserResponse> PendingUsers { get; set; } = new();
 }
 
@@ -112,7 +111,6 @@ public class DashboardService : IDashboardService
             a.AttentionStatusId == AttentionStatuses.Atendido &&
             a.AttendedAt >= fromUtc && a.AttendedAt < toUtc);
 
-        // El total depende del rol, como pide el enunciado
         string scope;
         switch (_currentUser.RolId)
         {
@@ -177,12 +175,10 @@ public class DashboardService : IDashboardService
 
         var (fromUtc, toUtc) = EcuadorTime.RangeUtc(fromDate, toDate);
 
-        // Usuarios: foto del estado actual (no depende del rango de fechas)
         var users = await _db.Users.AsNoTracking()
             .Select(u => new { u.UserId, u.UserName, u.FirstName, u.LastName, u.RolId, u.UserStatusId, u.SessionActive, u.UserCreate, u.CreationDate })
             .ToListAsync(cancellationToken);
 
-        // Turnos y pagos del rango. El volumen de una caja por día es pequeño, se agrupa en memoria.
         var turns = await _db.Turns.AsNoTracking()
             .Where(t => t.Date >= fromUtc && t.Date < toUtc)
             .Select(t => new

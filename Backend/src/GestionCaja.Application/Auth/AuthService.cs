@@ -13,7 +13,6 @@ public interface IAuthService
 
 public class AuthService : IAuthService
 {
-    // Intentos fallidos consecutivos permitidos antes de bloquear al usuario
     private const int MaxFailedAttempts = 3;
 
     private readonly IUserRepository _userRepository;

@@ -20,8 +20,6 @@ public class Contract : BaseEntity
     public int MethodPaymentId { get; set; }
     public MethodPayment MethodPayment { get; set; } = null!;
 
-    // En un cambio de servicio el contrato anterior queda sustituido (SUS) y se crea uno
-    // nuevo (REN) que apunta al anterior. Así se conserva el historial del cliente.
     public int? PreviousContractId { get; set; }
     public Contract? PreviousContract { get; set; }
 

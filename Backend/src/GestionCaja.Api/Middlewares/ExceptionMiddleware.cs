@@ -2,11 +2,6 @@ using GestionCaja.Application.Common.Exceptions;
 
 namespace GestionCaja.Api.Middlewares;
 
-/// <summary>
-/// Captura cualquier excepción de la petición y devuelve una respuesta JSON uniforme.
-/// Los errores de negocio (AppException) conservan su código; el resto responde 500
-/// sin exponer detalles internos.
-/// </summary>
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;

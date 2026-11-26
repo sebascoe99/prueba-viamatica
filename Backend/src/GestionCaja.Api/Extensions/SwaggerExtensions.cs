@@ -17,7 +17,6 @@ public static class SwaggerExtensions
                 Description = "API REST para la gestión de caja de una empresa de servicios de internet"
             });
 
-            // Botón "Authorize" de Swagger: permite pegar el token y lo envía en cada petición
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -33,7 +32,6 @@ public static class SwaggerExtensions
                 [new OpenApiSecuritySchemeReference("Bearer", document)] = []
             });
 
-            // Muestra en Swagger los comentarios /// de los controladores
             var xmlFile = Path.Combine(AppContext.BaseDirectory, "GestionCaja.Api.xml");
             if (File.Exists(xmlFile))
             {

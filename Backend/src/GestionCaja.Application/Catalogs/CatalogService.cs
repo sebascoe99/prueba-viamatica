@@ -94,9 +94,6 @@ public class CatalogService : ICatalogService
         }).ToList();
     }
 
-    /// <summary>
-    /// Opciones de menú del rol del usuario autenticado, leídas de las tablas menu y rolmenu.
-    /// </summary>
     public async Task<List<MenuResponse>> MenuAsync(CancellationToken cancellationToken = default)
     {
         return await _db.RolMenus.AsNoTracking()

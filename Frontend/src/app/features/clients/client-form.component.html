@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="cName" class="form-label">Nombres</label>
+      <input id="cName" type="text" class="form-control" formControlName="name" maxlength="50" [class.is-invalid]="submitted && f.name.invalid" />
+      <div class="field-error" *ngIf="submitted && f.name.invalid">Ingrese los nombres.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="cLastName" class="form-label">Apellidos</label>
+      <input id="cLastName" type="text" class="form-control" formControlName="lastName" maxlength="50" [class.is-invalid]="submitted && f.lastName.invalid" />
+      <div class="field-error" *ngIf="submitted && f.lastName.invalid">Ingrese los apellidos.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="cIdentification" class="form-label">Identificación</label>
+      <input id="cIdentification" type="text" inputmode="numeric" class="form-control" formControlName="identification" maxlength="13" [class.is-invalid]="submitted && f.identification.invalid" />
+      <div class="field-error" *ngIf="submitted && f.identification.invalid">La identificación tiene entre 10 y 13 dígitos, solo números.</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="cPhone" class="form-label">Teléfono</label>
+      <input id="cPhone" type="text" inputmode="numeric" class="form-control" formControlName="phoneNumber" maxlength="13" placeholder="09XXXXXXXX" [class.is-invalid]="submitted && f.phoneNumber.invalid" />
+      <div class="field-error" *ngIf="submitted && f.phoneNumber.invalid">El teléfono empieza con 09, solo números y al menos 10 dígitos.</div>
+    </div>
+
+    <div class="col-12">
+      <label for="cEmail" class="form-label">Correo</label>
+      <input id="cEmail" type="email" class="form-control" formControlName="email" maxlength="120" [class.is-invalid]="submitted && f.email.invalid" />
+      <div class="field-error" *ngIf="submitted && f.email.invalid">Ingrese un correo válido.</div>
+    </div>
+
+    <div class="col-12">
+      <label for="cAddress" class="form-label">Dirección</label>
+      <input id="cAddress" type="text" class="form-control" formControlName="address" maxlength="100" [class.is-invalid]="submitted && f.address.invalid" />
+      <div class="form-text">{{ f.address.value.length }}/100 · mínimo 20 caracteres</div>
+      <div class="field-error" *ngIf="submitted && f.address.invalid">La dirección debe tener entre 20 y 100 caracteres.</div>
+    </div>
+
+    <div class="col-12">
+      <label for="cReference" class="form-label">Referencia de la dirección</label>
+      <input id="cReference" type="text" class="form-control" formControlName="referenceAddress" maxlength="100" [class.is-invalid]="submitted && f.referenceAddress.invalid" />
+      <div class="form-text">{{ f.referenceAddress.value.length }}/100 · mínimo 20 caracteres</div>
+      <div class="field-error" *ngIf="submitted && f.referenceAddress.invalid">La referencia debe tener entre 20 y 100 caracteres.</div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelled.emit()">Cancelar</button>
+    <button type="submit" class="btn btn-primary">{{ client ? 'Guardar cambios' : 'Registrar cliente' }}</button>
+  </div>
+</form>

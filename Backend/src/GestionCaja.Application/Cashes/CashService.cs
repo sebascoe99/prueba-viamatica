@@ -94,7 +94,6 @@ public class CashService : ICashService
             throw new AppException("No se puede eliminar una caja que está siendo operada por un cajero");
         }
 
-        // Al eliminar la caja también se retiran sus asignaciones (eliminación lógica en ambos casos)
         _db.UserCashes.RemoveRange(cash.UserCashes);
         _db.Cashes.Remove(cash);
         await _db.SaveChangesAsync(cancellationToken);
@@ -164,7 +163,6 @@ public class CashService : ICashService
         var assignment = cash.UserCashes.FirstOrDefault(uc => uc.UserId == userId)
             ?? throw new AppException("El cajero no está asignado a esta caja", 404);
 
-        // Si justo ese cajero tenía la caja abierta, queda libre
         if (cash.CurrentUserId == userId)
         {
             cash.CurrentUserId = null;
@@ -230,7 +228,6 @@ public class CashService : ICashService
         }
         catch (DbUpdateException)
         {
-            // Otro cajero la tomó en el mismo instante: lo detecta el control de concurrencia de la fila
             throw new AppException("La caja acaba de ser tomada por otro cajero", 409);
         }
 

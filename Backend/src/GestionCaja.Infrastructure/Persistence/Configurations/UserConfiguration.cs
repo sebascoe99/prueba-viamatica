@@ -16,7 +16,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.FirstName).HasMaxLength(50).IsRequired();
         builder.Property(u => u.LastName).HasMaxLength(50).IsRequired();
 
-        // Longitudes amplias porque se guarda el valor cifrado / hasheado, no el texto original
         builder.Property(u => u.Email).HasMaxLength(256).IsRequired();
         builder.Property(u => u.Identification).HasMaxLength(256).IsRequired();
         builder.Property(u => u.Password).HasMaxLength(256).IsRequired();
@@ -33,9 +32,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasForeignKey(u => u.UserStatusId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // El nombre de usuario no puede repetirse
         builder.HasIndex(u => u.UserName).IsUnique();
-        // Índices para los filtros más usados: por rol y por estado
         builder.HasIndex(u => u.RolId);
         builder.HasIndex(u => u.UserStatusId);
 

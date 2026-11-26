@@ -1,0 +1,82 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="page-title mb-0">Clientes</h1>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-outline-primary" (click)="openBulk()"><span class="material-icons">upload_file</span> Carga masiva</button>
+    <button type="button" class="btn btn-primary" (click)="openCreate()"><span class="material-icons">person_add</span> Nuevo cliente</button>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <form class="row g-2 align-items-end" (ngSubmit)="load()">
+      <div class="col-md-6">
+        <label for="search" class="form-label">Buscar</label>
+        <input id="search" type="text" class="form-control" placeholder="Identificación, nombres o apellidos" [(ngModel)]="filters.search" name="search" />
+      </div>
+      <div class="col-md-3">
+        <label for="active" class="form-label">Estado</label>
+        <select id="active" class="form-select" [(ngModel)]="filters.active" name="active">
+          <option value="">Todos</option>
+          <option value="true">Activos</option>
+          <option value="false">Inactivos</option>
+        </select>
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary flex-fill">Filtrar</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()" title="Limpiar filtros"><span class="material-icons">close</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <p class="text-muted mb-0" *ngIf="clients.length === 0">No hay clientes para mostrar.</p>
+
+    <div class="table-responsive" *ngIf="clients.length > 0">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Identificación</th>
+            <th>Cliente</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Estado</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients">
+            <td class="fw-semibold">{{ client.identification }}</td>
+            <td>{{ client.name }} {{ client.lastName }}</td>
+            <td>{{ client.email }}</td>
+            <td>{{ client.phoneNumber }}</td>
+            <td>
+              {{ client.address }}
+              <div class="text-muted small">{{ client.referenceAddress }}</div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="client.active ? 'text-bg-success' : 'text-bg-secondary'">{{ client.active ? 'Activo' : 'Inactivo' }}</span>
+            </td>
+            <td class="text-end text-nowrap">
+              <button type="button" class="btn btn-outline-primary btn-sm btn-icon me-1" title="Editar" (click)="openEdit(client)"><span class="material-icons">edit</span></button>
+              <button type="button" class="btn btn-outline-secondary btn-sm btn-icon me-1" [title]="client.active ? 'Inactivar' : 'Activar'" (click)="toggleStatus(client)">
+                <span class="material-icons">{{ client.active ? 'toggle_on' : 'toggle_off' }}</span>
+              </button>
+              <button type="button" class="btn btn-outline-danger btn-sm btn-icon" title="Eliminar" (click)="remove(client)"><span class="material-icons">delete</span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-modal *ngIf="showForm" [title]="editing ? 'Editar cliente' : 'Nuevo cliente'" (closed)="showForm = false">
+  <app-client-form [client]="editing" (saved)="onSaved()" (cancelled)="showForm = false"></app-client-form>
+</app-modal>
+
+<app-modal *ngIf="showBulk" title="Carga masiva de clientes" [large]="true" (closed)="showBulk = false">
+  <app-bulk-upload [columns]="bulkColumns" templateName="plantilla-clientes" [result]="bulkResult" (upload)="uploadBulk($event)"></app-bulk-upload>
+</app-modal>

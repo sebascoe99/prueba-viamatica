@@ -32,7 +32,6 @@ public class AttentionStatusConfiguration : IEntityTypeConfiguration<AttentionSt
         builder.ToTable("attentionstatus");
         builder.HasKey(a => a.StatusId);
 
-        // Los ids son fijos del catálogo, no autogenerados
         builder.Property(a => a.StatusId).ValueGeneratedNever();
         builder.Property(a => a.Description).HasMaxLength(30).IsRequired();
 
@@ -80,7 +79,6 @@ public class AttentionConfiguration : IEntityTypeConfiguration<Attention>
 
         builder.HasIndex(a => a.TurnId);
         builder.HasIndex(a => a.ClientId);
-        // Total de turnos atendidos por día y por cajero (bienvenida y dashboard)
         builder.HasIndex(a => new { a.AttentionStatusId, a.AttendedAt });
         builder.HasIndex(a => new { a.UserCashierId, a.AttendedAt });
 

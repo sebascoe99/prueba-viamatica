@@ -1,0 +1,261 @@
+<h1 class="page-title">Procesos de caja</h1>
+
+<ng-container *ngIf="!openCash">
+  <div class="alert alert-info" *ngIf="myCashes.length === 0">No tiene cajas asignadas. Solicite a un gestor que lo asigne a una caja.</div>
+
+  <p class="text-muted" *ngIf="myCashes.length > 0">Abra una de sus cajas para empezar a atender.</p>
+
+  <div class="row g-3">
+    <div class="col-md-6 col-xl-4" *ngFor="let cash of myCashes">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h2 class="h6">{{ cash.cashDescription }}</h2>
+          <p class="mb-3">
+            <span class="badge" [ngClass]="cash.currentUserName ? 'text-bg-warning' : 'text-bg-success'">
+              {{ cash.currentUserName ? 'En uso por ' + cash.currentUserName : 'Libre' }}
+            </span>
+          </p>
+          <button type="button" class="btn btn-primary mt-auto" [disabled]="!!cash.currentUserName" (click)="open(cash)">
+            <span class="material-icons">lock_open</span> Abrir caja
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="openCash as cash">
+  <div class="card mb-3">
+    <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div>
+        <span class="material-icons text-primary">point_of_sale</span>
+        <strong class="ms-1">{{ cash.cashDescription }}</strong>
+        <span class="badge text-bg-success ms-2">Abierta por usted</span>
+        <span class="text-muted ms-2">{{ pendingTurns.length }} pendientes · {{ attendedTurns.length }} atendidos hoy</span>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="loadTurns()"><span class="material-icons">refresh</span> Actualizar</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" [disabled]="!!activeTurn" (click)="close()"><span class="material-icons">lock</span> Cerrar caja</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="!activeTurn">
+    <div class="card-body">
+      <h2 class="h6 text-muted mb-3">Turnos pendientes</h2>
+      <p class="text-muted mb-0" *ngIf="pendingTurns.length === 0">No hay turnos pendientes en esta caja.</p>
+
+      <div class="table-responsive" *ngIf="pendingTurns.length > 0">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Turno</th>
+              <th>Tipo de atención</th>
+              <th>Hora</th>
+              <th class="text-end"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let turn of pendingTurns">
+              <td class="fw-semibold">{{ turn.description }}</td>
+              <td>{{ turn.attentionTypeDescription }}</td>
+              <td>{{ turn.date | date: 'HH:mm' }}</td>
+              <td class="text-end"><button type="button" class="btn btn-primary btn-sm" (click)="selectTurn(turn)">Atender</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="activeTurn as turn">
+    <div class="card mb-3 border-start border-4 border-primary">
+      <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+          <div class="text-muted small">Turno en atención</div>
+          <div class="fs-5 fw-semibold">{{ turn.description }} · {{ turn.attentionTypeDescription }}</div>
+          <div>Cliente: <strong>{{ turn.clientName }}</strong> ({{ turn.clientIdentification }})</div>
+        </div>
+        <button type="button" class="btn btn-success" (click)="finish()"><span class="material-icons">check_circle</span> Finalizar atención</button>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-6" *ngIf="!activeContract">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h6 text-muted mb-3">Contratar servicio de internet</h2>
+            <div class="mb-3">
+              <label for="hireService" class="form-label">Servicio</label>
+              <select id="hireService" class="form-select" [(ngModel)]="newContract.serviceId">
+                <option value="">Seleccione</option>
+                <option *ngFor="let service of services" [value]="service.serviceId">
+                  {{ service.serviceName }} · {{ service.speedMbps }} Mbps · {{ service.price | currency: 'USD' }}
+                </option>
+              </select>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-8">
+                <label for="hireMethod" class="form-label">Forma de pago</label>
+                <select id="hireMethod" class="form-select" [(ngModel)]="newContract.methodPaymentId">
+                  <option value="">Seleccione</option>
+                  <option *ngFor="let method of methodPayments" [value]="method.id">{{ method.description }}</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label for="hireMonths" class="form-label">Meses</label>
+                <input id="hireMonths" type="number" class="form-control" min="1" max="60" [(ngModel)]="newContract.months" />
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="hire()">Contratar</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="activeContract as contract">
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h6 text-muted mb-3">Contrato en curso</h2>
+              <dl class="row mb-3">
+                <dt class="col-5">Servicio</dt>
+                <dd class="col-7">{{ contract.serviceName }} ({{ contract.speedMbps }} Mbps)</dd>
+                <dt class="col-5">Precio mensual</dt>
+                <dd class="col-7">{{ contract.price | currency: 'USD' }}</dd>
+                <dt class="col-5">Forma de pago</dt>
+                <dd class="col-7">{{ contract.methodPaymentDescription }}</dd>
+                <dt class="col-5">Vigencia</dt>
+                <dd class="col-7">{{ contract.startDate | date: 'dd/MM/yyyy' }} al {{ contract.endDate | date: 'dd/MM/yyyy' }}</dd>
+                <dt class="col-5">Estado</dt>
+                <dd class="col-7 mb-0"><span class="badge" [ngClass]="contractBadge(contract.statusId)">{{ contract.statusDescription }}</span></dd>
+              </dl>
+
+              <label for="payAmount" class="form-label">Registrar pago</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input id="payAmount" type="number" class="form-control" min="0.01" step="0.01" [(ngModel)]="paymentAmount" />
+                <button type="button" class="btn btn-primary" (click)="pay()">Pagar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h6 text-muted mb-3">Cambios sobre el contrato</h2>
+
+              <label for="changeService" class="form-label">Cambio del servicio contratado</label>
+              <div class="input-group mb-3">
+                <select id="changeService" class="form-select" [(ngModel)]="changeServiceId">
+                  <option value="">Seleccione el nuevo servicio</option>
+                  <option *ngFor="let service of otherServices" [value]="service.serviceId">
+                    {{ service.serviceName }} · {{ service.speedMbps }} Mbps · {{ service.price | currency: 'USD' }}
+                  </option>
+                </select>
+                <button type="button" class="btn btn-outline-primary" (click)="changeService()">Cambiar</button>
+              </div>
+
+              <label for="changeMethod" class="form-label">Cambio de forma de pago</label>
+              <div class="input-group mb-3">
+                <select id="changeMethod" class="form-select" [(ngModel)]="changeMethodId">
+                  <option value="">Seleccione la nueva forma de pago</option>
+                  <option *ngFor="let method of otherMethods" [value]="method.id">{{ method.description }}</option>
+                </select>
+                <button type="button" class="btn btn-outline-primary" (click)="changePaymentMethod()">Cambiar</button>
+              </div>
+
+              <button type="button" class="btn btn-outline-danger" (click)="cancelContract()"><span class="material-icons">cancel</span> Cancelar contrato</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h6 text-muted mb-3">Historial de contratos</h2>
+            <p class="text-muted mb-0" *ngIf="contracts.length === 0">El cliente no tiene contratos.</p>
+            <div class="table-responsive" *ngIf="contracts.length > 0">
+              <table class="table table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>N.°</th>
+                    <th>Servicio</th>
+                    <th>Fin</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of contracts">
+                    <td>{{ item.contractId }}</td>
+                    <td>{{ item.serviceName }}</td>
+                    <td>{{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                    <td><span class="badge" [ngClass]="contractBadge(item.statusId)">{{ item.statusDescription }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h6 text-muted mb-3">Pagos del cliente</h2>
+            <p class="text-muted mb-0" *ngIf="payments.length === 0">El cliente no tiene pagos registrados.</p>
+            <div class="table-responsive" *ngIf="payments.length > 0">
+              <table class="table table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Servicio</th>
+                    <th>Forma de pago</th>
+                    <th class="text-end">Monto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let payment of payments">
+                    <td>{{ payment.paymentDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ payment.serviceName }}</td>
+                    <td>{{ payment.methodPaymentDescription }}</td>
+                    <td class="text-end">{{ payment.amount | currency: 'USD' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<app-modal *ngIf="selectedTurn as turn" [title]="'Atender turno ' + turn.description" (closed)="selectedTurn = null">
+  <ng-container *ngIf="!showClientForm">
+    <label for="searchIdentification" class="form-label">Identificación del cliente</label>
+    <form class="input-group mb-3" (ngSubmit)="searchClient()">
+      <input id="searchIdentification" type="text" inputmode="numeric" class="form-control" maxlength="13" [(ngModel)]="searchIdentification" name="identification" placeholder="10 a 13 dígitos" />
+      <button type="submit" class="btn btn-primary"><span class="material-icons">search</span> Buscar</button>
+    </form>
+
+    <div class="alert alert-success" *ngIf="foundClient as client">
+      <strong>{{ client.name }} {{ client.lastName }}</strong> · {{ client.identification }}
+      <div class="small">{{ client.email }} · {{ client.phoneNumber }}</div>
+      <div class="small" *ngIf="!client.active"><strong>El cliente está inactivo.</strong></div>
+    </div>
+
+    <div class="alert alert-warning" *ngIf="searched && !foundClient">
+      No hay un cliente registrado con esa identificación.
+      <button type="button" class="btn btn-sm btn-primary ms-2" (click)="showClientForm = true">Registrar cliente</button>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-outline-secondary" (click)="selectedTurn = null">Cancelar</button>
+      <button type="button" class="btn btn-success" [disabled]="!foundClient || !foundClient.active" (click)="startAttention()">Iniciar atención</button>
+    </div>
+  </ng-container>
+
+  <app-client-form *ngIf="showClientForm" [identification]="searchIdentification" (saved)="onClientRegistered($event)" (cancelled)="showClientForm = false"></app-client-form>
+</app-modal>

@@ -18,7 +18,6 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
 
         builder.Property(s => s.ServiceName).HasMaxLength(100).IsRequired();
         builder.Property(s => s.ServiceDescription).HasMaxLength(150).IsRequired();
-        // En el esquema de ejemplo el precio era texto; se usa numeric para poder calcular
         builder.Property(s => s.Price).HasPrecision(10, 2);
 
         builder.HasIndex(s => s.ServiceName).IsUnique();

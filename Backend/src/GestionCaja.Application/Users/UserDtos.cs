@@ -2,14 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GestionCaja.Application.Users;
 
-/// <summary>Expresiones regulares de las reglas del enunciado, en un solo lugar.</summary>
 public static class UserRules
 {
-    // 8 a 20 caracteres, solo letras y números, con al menos una letra y al menos un número
     public const string UserName = @"^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{8,20}$";
     public const string UserNameMessage = "El nombre de usuario debe tener entre 8 y 20 caracteres, solo letras y números, con al menos un número";
 
-    // 8 a 30 caracteres, con al menos un número y al menos una mayúscula
     public const string Password = @"^(?=.*[0-9])(?=.*[A-Z]).{8,30}$";
     public const string PasswordMessage = "La contraseña debe tener entre 8 y 30 caracteres, al menos un número y una letra mayúscula";
 
@@ -113,11 +110,6 @@ public class UserResponse
     public DateTime? LastLogin { get; set; }
 }
 
-/// <summary>
-/// Fila de la carga masiva. No lleva atributos de validación a propósito: así el controlador
-/// no rechaza todo el archivo por una fila incorrecta. Cada fila se valida en el servicio
-/// con las reglas de UserCreateRequest y se reporta su resultado por separado.
-/// </summary>
 public class UserBulkRow
 {
     public string? UserName { get; set; }
@@ -139,4 +131,3 @@ public class UserBulkRow
         RolId = RolId
     };
 }
-

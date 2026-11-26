@@ -10,19 +10,13 @@ namespace GestionCaja.Infrastructure;
 
 public static class DependencyInjection
 {
-    /// <summary>
-    /// Registra en el contenedor todo lo que aporta la capa de infraestructura.
-    /// La Api solo llama a este método y no conoce los detalles (EF Core, PostgreSQL).
-    /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
             options
                 .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-                // Convierte UserId -> user_id, CreatedAt -> created_at (convención de PostgreSQL)
                 .UseSnakeCaseNamingConvention());
 
-        // Seguridad: cada interfaz de Application se conecta con su implementación
         var jwtSettings = GetJwtSettings(configuration);
         services.AddSingleton(jwtSettings);
 
@@ -33,7 +27,6 @@ public static class DependencyInjection
         services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
-        // Acceso a datos: la misma instancia de AppDbContext atiende a la interfaz que usa Application
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<AppDbContext>());
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITurnDescriptionGenerator, TurnDescriptionGenerator>();

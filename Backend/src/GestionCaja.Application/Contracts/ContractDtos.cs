@@ -34,11 +34,9 @@ public class PaymentRequest
     [Range(1, int.MaxValue, ErrorMessage = "El contrato es obligatorio")]
     public int ContractId { get; set; }
 
-    // Si no se envía, se cobra el precio del servicio contratado
     [Range(0.01, 100000, ErrorMessage = "El monto debe ser mayor a cero")]
     public decimal? Amount { get; set; }
 
-    // Si no se envía, se usa la forma de pago del contrato
     public int? MethodPaymentId { get; set; }
 }
 

@@ -18,7 +18,6 @@ public static class JwtAuthenticationExtensions
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                // Se conservan los nombres de claim tal como vienen en el token (uid, usr, rol)
                 options.MapInboundClaims = false;
 
                 options.TokenValidationParameters = new TokenValidationParameters

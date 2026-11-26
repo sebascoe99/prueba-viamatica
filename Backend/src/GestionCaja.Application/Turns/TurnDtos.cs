@@ -38,7 +38,6 @@ public class TurnResponse
     public int UserGestorId { get; set; }
     public string GestorUserName { get; set; } = string.Empty;
 
-    // Estado del turno, tomado de su atención. Sin atención = Pendiente.
     public int StatusId { get; set; }
     public string StatusDescription { get; set; } = string.Empty;
 

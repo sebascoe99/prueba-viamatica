@@ -2,9 +2,6 @@ using GestionCaja.Domain.Common;
 
 namespace GestionCaja.Domain.Entities;
 
-/// <summary>
-/// Atención que un cajero le da a un cliente dentro de un turno.
-/// </summary>
 public class Attention : BaseEntity
 {
     public int AttentionId { get; set; }
@@ -21,7 +18,6 @@ public class Attention : BaseEntity
     public int AttentionStatusId { get; set; }
     public AttentionStatus AttentionStatus { get; set; } = null!;
 
-    // Cajero que atendió y momento en que finalizó (para los indicadores)
     public int? UserCashierId { get; set; }
     public User? UserCashier { get; set; }
     public DateTime? AttendedAt { get; set; }

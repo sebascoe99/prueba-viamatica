@@ -54,13 +54,11 @@ public partial class TurnService : ITurnService
             query = query.Where(t => t.CashId == cashId.Value);
         }
 
-        // El gestor solo ve los turnos que él asignó
         if (_currentUser.RolId == Roles.Gestor)
         {
             query = query.Where(t => t.UserGestorId == _currentUser.UserId);
         }
 
-        // El cajero solo ve los turnos de las cajas a las que está asignado
         if (_currentUser.RolId == Roles.Cajero)
         {
             query = query.Where(t => t.Cash.UserCashes.Any(uc => uc.UserId == _currentUser.UserId));
@@ -155,7 +153,6 @@ public partial class TurnService : ITurnService
         var turn = await FindOrThrowAsync(turnId, cancellationToken);
         EnsurePending(turn, "atender");
 
-        // Solo el cajero que tiene la caja abierta puede atender sus turnos
         if (turn.Cash.CurrentUserId != _currentUser.UserId)
         {
             throw new AppException("Debe abrir la caja del turno antes de atenderlo", 403);

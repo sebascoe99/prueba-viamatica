@@ -7,7 +7,6 @@ public interface IUserRepository
     Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default);
     Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken = default);
 
-    /// <summary>Incluye usuarios eliminados lógicamente: un nombre usado no se puede repetir.</summary>
     Task<bool> ExistsUserNameAsync(string userName, CancellationToken cancellationToken = default);
 
     Task<List<User>> ListAsync(int? rolId, string? statusId, string? search, int? createdBy, CancellationToken cancellationToken = default);

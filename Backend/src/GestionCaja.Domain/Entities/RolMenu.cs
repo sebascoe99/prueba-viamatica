@@ -1,8 +1,5 @@
 namespace GestionCaja.Domain.Entities;
 
-/// <summary>
-/// Tabla intermedia: qué opciones de menú puede ver cada rol.
-/// </summary>
 public class RolMenu
 {
     public int RolId { get; set; }

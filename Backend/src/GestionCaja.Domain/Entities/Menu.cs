@@ -2,9 +2,6 @@ using GestionCaja.Domain.Common;
 
 namespace GestionCaja.Domain.Entities;
 
-/// <summary>
-/// Opción del menú del front. Se carga desde la base según el rol del usuario.
-/// </summary>
 public class Menu : BaseEntity
 {
     public int MenuId { get; set; }

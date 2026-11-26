@@ -41,7 +41,6 @@ public class JwtTokenService : IJwtTokenService
             Issuer = _settings.Issuer,
             Audience = _settings.Audience,
             Expires = expiresAt,
-            // La firma garantiza que nadie modificó el token
             SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
         };
 

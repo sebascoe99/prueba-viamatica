@@ -166,7 +166,6 @@ public class ClientService : IClientService
         return client ?? throw new AppException("El cliente no existe", 404);
     }
 
-    // Un cliente solo puede registrarse una vez. Se revisan también los eliminados lógicamente.
     private async Task EnsureIdentificationIsFreeAsync(string identification, int? exceptClientId, CancellationToken cancellationToken)
     {
         var exists = await _db.Clients

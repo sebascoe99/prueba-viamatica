@@ -7,7 +7,6 @@ public static class ClientRules
     public const string Identification = @"^[0-9]{10,13}$";
     public const string IdentificationMessage = "La identificación debe tener entre 10 y 13 dígitos numéricos";
 
-    // Solo números, empieza con 09 y tiene al menos 10 dígitos
     public const string Phone = @"^09[0-9]{8,11}$";
     public const string PhoneMessage = "El teléfono debe tener al menos 10 dígitos, solo números y empezar con 09";
 }
@@ -44,7 +43,6 @@ public class ClientRequest
     public string ReferenceAddress { get; set; } = string.Empty;
 }
 
-/// <summary>Fila de la carga masiva, sin validación automática (se valida fila por fila en el servicio).</summary>
 public class ClientBulkRow
 {
     public string? Name { get; set; }

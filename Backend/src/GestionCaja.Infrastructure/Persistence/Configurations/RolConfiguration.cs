@@ -15,7 +15,6 @@ public class RolConfiguration : IEntityTypeConfiguration<Rol>
         builder.Property(r => r.RolName).HasMaxLength(50).IsRequired();
         builder.HasIndex(r => r.RolName).IsUnique();
 
-        // Filtro global: las consultas ignoran los registros eliminados lógicamente
         builder.HasQueryFilter(r => !r.IsDeleted);
 
         var seedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
