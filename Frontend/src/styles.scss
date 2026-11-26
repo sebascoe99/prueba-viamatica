@@ -1,82 +1,26 @@
-:root {
-  --gc-primary: #1f4e79;
-  --gc-primary-dark: #163a5a;
-  --gc-sidebar-width: 250px;
-  --gc-bg: #f4f6f9;
-}
-
 html,
 body {
   height: 100%;
 }
 
 body {
-  background: var(--gc-bg);
-  font-size: 0.925rem;
-}
-
-.btn-primary {
-  --bs-btn-bg: var(--gc-primary);
-  --bs-btn-border-color: var(--gc-primary);
-  --bs-btn-hover-bg: var(--gc-primary-dark);
-  --bs-btn-hover-border-color: var(--gc-primary-dark);
-  --bs-btn-active-bg: var(--gc-primary-dark);
-  --bs-btn-disabled-bg: var(--gc-primary);
-  --bs-btn-disabled-border-color: var(--gc-primary);
-}
-
-.text-primary {
-  color: var(--gc-primary) !important;
+  background: #f8f9fa;
 }
 
 .material-icons {
   font-size: 1.2rem;
-  vertical-align: middle;
 }
 
 .page-title {
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--gc-primary);
+  font-size: 1.4rem;
   margin-bottom: 1rem;
-}
-
-.card {
-  border: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.table > thead th {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: #5c6b7a;
-  white-space: nowrap;
 }
 
 .table td {
   vertical-align: middle;
 }
 
-.btn-icon {
-  padding: 0.15rem 0.4rem;
-  line-height: 1;
-}
-
-.stat-card .stat-value {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: var(--gc-primary);
-  line-height: 1.1;
-}
-
-.stat-card .stat-label {
-  color: #5c6b7a;
-  font-size: 0.82rem;
-}
-
 .field-error {
   color: #dc3545;
-  font-size: 0.8rem;
-  margin-top: 0.2rem;
+  font-size: 0.85rem;
 }

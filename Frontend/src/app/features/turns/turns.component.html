@@ -22,7 +22,7 @@
       </div>
       <div class="col-md-3">
         <label class="form-label d-none d-md-block">&nbsp;</label>
-        <button type="submit" class="btn btn-primary w-100"><span class="material-icons">confirmation_number</span> Asignar turno</button>
+        <button type="submit" class="btn btn-primary w-100">Asignar turno</button>
       </div>
     </form>
   </div>
@@ -41,7 +41,7 @@
           <option value="">Todas las cajas</option>
           <option *ngFor="let cash of cashes" [value]="cash.cashId">{{ cash.cashDescription }}</option>
         </select>
-        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="load()" title="Actualizar"><span class="material-icons">refresh</span></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="load()">Actualizar</button>
       </div>
     </div>
 
@@ -72,10 +72,8 @@
             <td>{{ turn.cashierUserName || '-' }}</td>
             <td class="text-end text-nowrap">
               <ng-container *ngIf="turn.statusId === status.Pendiente">
-                <button type="button" class="btn btn-outline-primary btn-sm btn-icon me-1" title="Reasignar a otra caja" (click)="openReassign(turn)">
-                  <span class="material-icons">swap_horiz</span>
-                </button>
-                <button type="button" class="btn btn-outline-danger btn-sm btn-icon" title="Eliminar" (click)="remove(turn)"><span class="material-icons">delete</span></button>
+                <button type="button" class="btn btn-outline-primary btn-sm me-1" (click)="openReassign(turn)">Reasignar a otra caja</button>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="remove(turn)">Eliminar</button>
               </ng-container>
             </td>
           </tr>

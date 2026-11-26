@@ -1,8 +1,8 @@
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
   <h1 class="page-title mb-0">Clientes</h1>
   <div class="d-flex gap-2">
-    <button type="button" class="btn btn-outline-primary" (click)="openBulk()"><span class="material-icons">upload_file</span> Carga masiva</button>
-    <button type="button" class="btn btn-primary" (click)="openCreate()"><span class="material-icons">person_add</span> Nuevo cliente</button>
+    <button type="button" class="btn btn-outline-primary" (click)="openBulk()">Carga masiva</button>
+    <button type="button" class="btn btn-primary" (click)="openCreate()">Nuevo cliente</button>
   </div>
 </div>
 
@@ -23,7 +23,7 @@
       </div>
       <div class="col-md-3 d-flex gap-2">
         <button type="submit" class="btn btn-primary flex-fill">Filtrar</button>
-        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()" title="Limpiar filtros"><span class="material-icons">close</span></button>
+        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">Limpiar</button>
       </div>
     </form>
   </div>
@@ -60,11 +60,9 @@
               <span class="badge" [ngClass]="client.active ? 'text-bg-success' : 'text-bg-secondary'">{{ client.active ? 'Activo' : 'Inactivo' }}</span>
             </td>
             <td class="text-end text-nowrap">
-              <button type="button" class="btn btn-outline-primary btn-sm btn-icon me-1" title="Editar" (click)="openEdit(client)"><span class="material-icons">edit</span></button>
-              <button type="button" class="btn btn-outline-secondary btn-sm btn-icon me-1" [title]="client.active ? 'Inactivar' : 'Activar'" (click)="toggleStatus(client)">
-                <span class="material-icons">{{ client.active ? 'toggle_on' : 'toggle_off' }}</span>
-              </button>
-              <button type="button" class="btn btn-outline-danger btn-sm btn-icon" title="Eliminar" (click)="remove(client)"><span class="material-icons">delete</span></button>
+              <button type="button" class="btn btn-outline-primary btn-sm me-1" (click)="openEdit(client)">Editar</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm me-1" (click)="toggleStatus(client)">{{ client.active ? 'Inactivar' : 'Activar' }}</button>
+              <button type="button" class="btn btn-outline-danger btn-sm" (click)="remove(client)">Eliminar</button>
             </td>
           </tr>
         </tbody>

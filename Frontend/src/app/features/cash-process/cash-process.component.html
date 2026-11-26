@@ -16,7 +16,7 @@
             </span>
           </p>
           <button type="button" class="btn btn-primary mt-auto" [disabled]="!!cash.currentUserName" (click)="open(cash)">
-            <span class="material-icons">lock_open</span> Abrir caja
+            Abrir caja
           </button>
         </div>
       </div>
@@ -28,14 +28,13 @@
   <div class="card mb-3">
     <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
       <div>
-        <span class="material-icons text-primary">point_of_sale</span>
         <strong class="ms-1">{{ cash.cashDescription }}</strong>
         <span class="badge text-bg-success ms-2">Abierta por usted</span>
         <span class="text-muted ms-2">{{ pendingTurns.length }} pendientes · {{ attendedTurns.length }} atendidos hoy</span>
       </div>
       <div class="d-flex gap-2">
-        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="loadTurns()"><span class="material-icons">refresh</span> Actualizar</button>
-        <button type="button" class="btn btn-outline-danger btn-sm" [disabled]="!!activeTurn" (click)="close()"><span class="material-icons">lock</span> Cerrar caja</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="loadTurns()">Actualizar</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" [disabled]="!!activeTurn" (click)="close()">Cerrar caja</button>
       </div>
     </div>
   </div>
@@ -69,14 +68,14 @@
   </div>
 
   <ng-container *ngIf="activeTurn as turn">
-    <div class="card mb-3 border-start border-4 border-primary">
+    <div class="card mb-3">
       <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div>
           <div class="text-muted small">Turno en atención</div>
           <div class="fs-5 fw-semibold">{{ turn.description }} · {{ turn.attentionTypeDescription }}</div>
           <div>Cliente: <strong>{{ turn.clientName }}</strong> ({{ turn.clientIdentification }})</div>
         </div>
-        <button type="button" class="btn btn-success" (click)="finish()"><span class="material-icons">check_circle</span> Finalizar atención</button>
+        <button type="button" class="btn btn-success" (click)="finish()">Finalizar atención</button>
       </div>
     </div>
 
@@ -165,7 +164,7 @@
                 <button type="button" class="btn btn-outline-primary" (click)="changePaymentMethod()">Cambiar</button>
               </div>
 
-              <button type="button" class="btn btn-outline-danger" (click)="cancelContract()"><span class="material-icons">cancel</span> Cancelar contrato</button>
+              <button type="button" class="btn btn-outline-danger" (click)="cancelContract()">Cancelar contrato</button>
             </div>
           </div>
         </div>
@@ -237,7 +236,7 @@
     <label for="searchIdentification" class="form-label">Identificación del cliente</label>
     <form class="input-group mb-3" (ngSubmit)="searchClient()">
       <input id="searchIdentification" type="text" inputmode="numeric" class="form-control" maxlength="13" [(ngModel)]="searchIdentification" name="identification" placeholder="10 a 13 dígitos" />
-      <button type="submit" class="btn btn-primary"><span class="material-icons">search</span> Buscar</button>
+      <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
 
     <div class="alert alert-success" *ngIf="foundClient as client">

@@ -12,7 +12,6 @@ import { NotificationService } from '../../core/services/ui.service';
 })
 export class LoginComponent {
   submitted = false;
-  showPassword = false;
 
   form;
 

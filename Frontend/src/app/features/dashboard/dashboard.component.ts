@@ -39,8 +39,4 @@ export class DashboardComponent implements OnInit {
 
     this.dashboard.indicators(this.from, this.to).subscribe((data) => (this.data = data));
   }
-
-  percent(value: number, total: number): number {
-    return total > 0 ? Math.round((value / total) * 100) : 0;
-  }
 }

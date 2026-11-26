@@ -21,14 +21,14 @@ export interface BulkColumn {
     <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
       <input type="file" class="form-control w-auto" accept=".xlsx,.csv" (change)="onFileSelected($event)" />
       <button type="button" class="btn btn-outline-secondary btn-sm" (click)="downloadTemplate()">
-        <span class="material-icons">download</span> Descargar plantilla
+        Descargar plantilla
       </button>
     </div>
 
     <div *ngIf="rows.length > 0 && !result">
       <div class="alert alert-info py-2">Se leyeron <strong>{{ rows.length }}</strong> filas del archivo.</div>
       <button type="button" class="btn btn-primary" (click)="upload.emit(rows)">
-        <span class="material-icons">upload</span> Cargar {{ rows.length }} registros
+        Cargar {{ rows.length }} registros
       </button>
     </div>
 
@@ -80,7 +80,9 @@ export class BulkUploadComponent {
     try {
       const buffer = await file.arrayBuffer();
       // raw: true hace que en un CSV no se conviertan a número valores como 0991234567 (perdería el cero)
-      const workbook = XLSX.read(buffer, { type: 'array', raw: true });
+      const workbook = file.name.toLowerCase().endsWith('.csv')
+        ? XLSX.read(this.decodeCsv(buffer), { type: 'string', raw: true })
+        : XLSX.read(buffer, { type: 'array', raw: true });
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
       const rawRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: '', raw: false });
 
@@ -91,6 +93,16 @@ export class BulkUploadComponent {
       }
     } catch {
       this.notifications.error('No se pudo leer el archivo. Verifique que sea .xlsx o .csv');
+    }
+  }
+
+  // Un CSV puede venir en UTF-8 o en ANSI (el "CSV" clásico de Excel). Se intenta UTF-8 y,
+  // si no es válido, se lee como windows-1252 para no dañar las tildes.
+  private decodeCsv(buffer: ArrayBuffer): string {
+    try {
+      return new TextDecoder('utf-8', { fatal: true }).decode(buffer);
+    } catch {
+      return new TextDecoder('windows-1252').decode(buffer);
     }
   }
 

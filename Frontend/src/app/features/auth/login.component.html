@@ -2,7 +2,6 @@
   <div class="card auth-card">
     <div class="card-body p-4">
       <div class="text-center mb-4">
-        <span class="material-icons auth-logo">router</span>
         <h1 class="h4 mt-2 mb-1">Gestión de Caja</h1>
         <p class="text-muted mb-0">Ingrese con su usuario y contraseña</p>
       </div>
@@ -27,19 +26,14 @@
 
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <div class="input-group">
-            <input
-              id="password"
-              [type]="showPassword ? 'text' : 'password'"
-              class="form-control"
-              formControlName="password"
-              autocomplete="current-password"
-              [class.is-invalid]="submitted && f.password.invalid"
-            />
-            <button type="button" class="btn btn-outline-secondary" (click)="showPassword = !showPassword" aria-label="Mostrar contraseña">
-              <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
-            </button>
-          </div>
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="password"
+            autocomplete="current-password"
+            [class.is-invalid]="submitted && f.password.invalid"
+          />
           <div class="field-error" *ngIf="submitted && f.password.errors as errors">
             <span *ngIf="errors['required']">Ingrese su contraseña.</span>
             <span *ngIf="errors['minlength'] || errors['maxlength']">La contraseña tiene entre 8 y 30 caracteres.</span>

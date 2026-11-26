@@ -1,25 +1,33 @@
 <h1 class="page-title">Dashboard</h1>
 
 <ng-container *ngIf="data as d">
-  <h2 class="h6 text-muted">Usuarios</h2>
-  <div class="row g-3 mb-4">
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value">{{ d.users.total }}</div><div class="stat-label">Total</div></div></div>
-    </div>
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value text-success">{{ d.users.sessionActive }}</div><div class="stat-label">Con sesión activa</div></div></div>
-    </div>
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value text-secondary">{{ d.users.sessionInactive }}</div><div class="stat-label">Con sesión inactiva</div></div></div>
-    </div>
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value text-danger">{{ d.users.blocked }}</div><div class="stat-label">Bloqueados</div></div></div>
-    </div>
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value text-warning">{{ d.users.pendingApproval }}</div><div class="stat-label">Pendientes de aprobación</div></div></div>
-    </div>
-    <div class="col-6 col-md-4 col-xl-2">
-      <div class="card stat-card"><div class="card-body"><div class="stat-value text-secondary">{{ d.users.inactive }}</div><div class="stat-label">Inactivos</div></div></div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="h6 text-muted mb-3">Usuarios</h2>
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Total</th>
+            <th>Sesión activa</th>
+            <th>Sesión inactiva</th>
+            <th>Activos</th>
+            <th>Inactivos</th>
+            <th>Bloqueados</th>
+            <th>Pendientes de aprobación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ d.users.total }}</td>
+            <td>{{ d.users.sessionActive }}</td>
+            <td>{{ d.users.sessionInactive }}</td>
+            <td>{{ d.users.active }}</td>
+            <td>{{ d.users.inactive }}</td>
+            <td>{{ d.users.blocked }}</td>
+            <td>{{ d.users.pendingApproval }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </ng-container>
@@ -36,7 +44,7 @@
         <input id="to" type="date" class="form-control" [(ngModel)]="to" name="to" />
       </div>
       <div class="col-sm-4 col-lg-2">
-        <button type="submit" class="btn btn-primary w-100"><span class="material-icons">search</span> Consultar</button>
+        <button type="submit" class="btn btn-primary w-100">Consultar</button>
       </div>
     </form>
   </div>
@@ -59,7 +67,6 @@
                   <th class="text-end">Turnos asignados</th>
                   <th class="text-end">Atendidos</th>
                   <th class="text-end">Pendientes</th>
-                  <th style="width: 22%">Avance</th>
                 </tr>
               </thead>
               <tbody>
@@ -70,13 +77,6 @@
                   <td class="text-end">{{ cash.turnsAssigned }}</td>
                   <td class="text-end">{{ cash.turnsAttended }}</td>
                   <td class="text-end">{{ cash.turnsPending }}</td>
-                  <td>
-                    <div class="progress" role="progressbar" [attr.aria-valuenow]="percent(cash.turnsAttended, cash.turnsAssigned)" aria-valuemin="0" aria-valuemax="100">
-                      <div class="progress-bar bg-success" [style.width.%]="percent(cash.turnsAttended, cash.turnsAssigned)">
-                        {{ percent(cash.turnsAttended, cash.turnsAssigned) }}%
-                      </div>
-                    </div>
-                  </td>
                 </tr>
               </tbody>
             </table>
