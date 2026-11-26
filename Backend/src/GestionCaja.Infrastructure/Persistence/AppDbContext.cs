@@ -16,6 +16,14 @@ public class AppDbContext : DbContext
     public DbSet<Menu> Menus => Set<Menu>();
     public DbSet<RolMenu> RolMenus => Set<RolMenu>();
 
+    public DbSet<Cash> Cashes => Set<Cash>();
+    public DbSet<UserCash> UserCashes => Set<UserCash>();
+    public DbSet<Turn> Turns => Set<Turn>();
+    public DbSet<AttentionType> AttentionTypes => Set<AttentionType>();
+    public DbSet<AttentionStatus> AttentionStatuses => Set<AttentionStatus>();
+    public DbSet<Attention> Attentions => Set<Attention>();
+    public DbSet<Client> Clients => Set<Client>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Aplica todas las clases IEntityTypeConfiguration de este proyecto (carpeta Configurations)
