@@ -1,4 +1,7 @@
+using GestionCaja.Application.Common.Interfaces;
 using GestionCaja.Infrastructure.Persistence;
+using GestionCaja.Infrastructure.Repositories;
+using GestionCaja.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +22,31 @@ public static class DependencyInjection
                 // Convierte UserId -> user_id, CreatedAt -> created_at (convención de PostgreSQL)
                 .UseSnakeCaseNamingConvention());
 
+        // Seguridad: cada interfaz de Application se conecta con su implementación
+        var jwtSettings = GetJwtSettings(configuration);
+        services.AddSingleton(jwtSettings);
+
+        var encryptionKey = configuration["Encryption:Key"]
+            ?? throw new InvalidOperationException("Falta configurar Encryption:Key");
+        services.AddSingleton<IEncryptionService>(new AesEncryptionService(encryptionKey));
+
+        services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
+        services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
+        // Repositorios
+        services.AddScoped<IUserRepository, UserRepository>();
+
         return services;
+    }
+
+    public static JwtSettings GetJwtSettings(IConfiguration configuration)
+    {
+        return new JwtSettings
+        {
+            Key = configuration["Jwt:Key"] ?? throw new InvalidOperationException("Falta configurar Jwt:Key"),
+            Issuer = configuration["Jwt:Issuer"] ?? "GestionCaja.Api",
+            Audience = configuration["Jwt:Audience"] ?? "GestionCaja.Frontend",
+            ExpirationMinutes = int.TryParse(configuration["Jwt:ExpirationMinutes"], out var minutes) ? minutes : 60
+        };
     }
 }
