@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GestionCaja.Api/GestionCaja.Api.csproj" />
+    <Project Path="src/GestionCaja.Application/GestionCaja.Application.csproj" />
+    <Project Path="src/GestionCaja.Domain/GestionCaja.Domain.csproj" />
+    <Project Path="src/GestionCaja.Infrastructure/GestionCaja.Infrastructure.csproj" />
+  </Folder>
+</Solution>
