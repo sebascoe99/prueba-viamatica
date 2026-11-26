@@ -1,3 +1,4 @@
+using GestionCaja.Application.Common;
 using GestionCaja.Application.Users;
 using GestionCaja.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;

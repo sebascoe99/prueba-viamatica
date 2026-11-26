@@ -228,6 +228,12 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
                     b.HasKey("CashId")
                         .HasName("pk_cash");
 
@@ -551,6 +557,78 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasName("pk_menu");
 
                     b.ToTable("menu", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            MenuId = 1,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 1,
+                            Icon = "home",
+                            IsDeleted = false,
+                            Name = "Inicio",
+                            Route = "/home"
+                        },
+                        new
+                        {
+                            MenuId = 2,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 2,
+                            Icon = "dashboard",
+                            IsDeleted = false,
+                            Name = "Dashboard",
+                            Route = "/dashboard"
+                        },
+                        new
+                        {
+                            MenuId = 3,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 3,
+                            Icon = "group",
+                            IsDeleted = false,
+                            Name = "Usuarios",
+                            Route = "/users"
+                        },
+                        new
+                        {
+                            MenuId = 4,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 4,
+                            Icon = "point_of_sale",
+                            IsDeleted = false,
+                            Name = "Cajas",
+                            Route = "/cashes"
+                        },
+                        new
+                        {
+                            MenuId = 5,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 5,
+                            Icon = "confirmation_number",
+                            IsDeleted = false,
+                            Name = "Asignación de turnos",
+                            Route = "/turns"
+                        },
+                        new
+                        {
+                            MenuId = 6,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 6,
+                            Icon = "payments",
+                            IsDeleted = false,
+                            Name = "Procesos de caja",
+                            Route = "/cash-process"
+                        },
+                        new
+                        {
+                            MenuId = 7,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 7,
+                            Icon = "badge",
+                            IsDeleted = false,
+                            Name = "Clientes",
+                            Route = "/clients"
+                        });
                 });
 
             modelBuilder.Entity("GestionCaja.Domain.Entities.MethodPayment", b =>
@@ -745,6 +823,63 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_rolmenu_menu_id");
 
                     b.ToTable("rolmenu", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            RolId = 1,
+                            MenuId = 1
+                        },
+                        new
+                        {
+                            RolId = 1,
+                            MenuId = 2
+                        },
+                        new
+                        {
+                            RolId = 1,
+                            MenuId = 3
+                        },
+                        new
+                        {
+                            RolId = 1,
+                            MenuId = 4
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            MenuId = 1
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            MenuId = 3
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            MenuId = 4
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            MenuId = 5
+                        },
+                        new
+                        {
+                            RolId = 3,
+                            MenuId = 1
+                        },
+                        new
+                        {
+                            RolId = 3,
+                            MenuId = 6
+                        },
+                        new
+                        {
+                            RolId = 3,
+                            MenuId = 7
+                        });
                 });
 
             modelBuilder.Entity("GestionCaja.Domain.Entities.Service", b =>

@@ -33,8 +33,10 @@ public static class DependencyInjection
         services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
-        // Repositorios
+        // Acceso a datos: la misma instancia de AppDbContext atiende a la interfaz que usa Application
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<AppDbContext>());
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITurnDescriptionGenerator, TurnDescriptionGenerator>();
 
         return services;
     }

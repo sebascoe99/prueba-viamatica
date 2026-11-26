@@ -1,10 +1,11 @@
+using GestionCaja.Application.Common.Interfaces;
 using GestionCaja.Domain.Common;
 using GestionCaja.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionCaja.Infrastructure.Persistence;
 
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext, IApplicationDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

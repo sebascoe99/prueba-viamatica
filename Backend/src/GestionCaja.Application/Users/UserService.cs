@@ -1,3 +1,4 @@
+using GestionCaja.Application.Common;
 using GestionCaja.Application.Common.Exceptions;
 using GestionCaja.Application.Common.Interfaces;
 using GestionCaja.Application.Common.Validation;

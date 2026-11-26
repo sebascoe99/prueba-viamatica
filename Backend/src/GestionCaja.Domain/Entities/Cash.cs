@@ -14,6 +14,10 @@ public class Cash : BaseEntity
     public User? CurrentUser { get; set; }
     public DateTime? OpenedAt { get; set; }
 
+    // Versión de la fila para control de concurrencia optimista: si dos cajeros intentan
+    // abrir la misma caja a la vez, solo el primero guarda; el segundo recibe un error.
+    public uint Version { get; set; }
+
     public ICollection<UserCash> UserCashes { get; set; } = new List<UserCash>();
     public ICollection<Turn> Turns { get; set; } = new List<Turn>();
 }
