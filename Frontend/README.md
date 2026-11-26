@@ -45,6 +45,7 @@ src/app
     ├── dashboard       Indicadores (administrador)
     ├── users           Usuarios y carga masiva
     ├── cashes          Cajas y asignación de cajeros
+    ├── services        Servicios y equipos (administrador)
     ├── turns           Asignación de turnos (gestor)
     ├── cash-process    Procesos de caja (cajero)
     └── clients         Clientes y carga masiva (cajero)
@@ -67,7 +68,7 @@ src/app
 
 | Rol | Pantallas |
 |---|---|
-| Administrador | Inicio, Dashboard, Usuarios, Cajas |
+| Administrador | Inicio, Dashboard, Usuarios, Cajas, Servicios |
 | Gestor | Inicio, Usuarios, Cajas, Asignación de turnos |
 | Cajero | Inicio, Procesos de caja, Clientes |
 

@@ -286,6 +286,7 @@ public class CashService : ICashService
         CurrentUserName = cash.CurrentUser?.UserName,
         OpenedAt = cash.OpenedAt,
         Cashiers = cash.UserCashes
+            .Where(uc => !uc.IsDeleted)
             .Select(uc => new CashierResponse
             {
                 UserId = uc.UserId,

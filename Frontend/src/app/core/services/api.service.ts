@@ -251,3 +251,26 @@ export class ContractApi {
     return this.http.post<Payment>('/api/payments', { contractId, amount });
   }
 }
+
+@Injectable({ providedIn: 'root' })
+export class ServiceAdminApi {
+  private readonly url = '/api/services';
+
+  constructor(private http: HttpClient) {}
+
+  list(): Observable<ServicePlan[]> {
+    return this.http.get<ServicePlan[]>(this.url);
+  }
+
+  create(service: unknown): Observable<ServicePlan> {
+    return this.http.post<ServicePlan>(this.url, service);
+  }
+
+  update(serviceId: number, service: unknown): Observable<ServicePlan> {
+    return this.http.put<ServicePlan>(`${this.url}/${serviceId}`, service);
+  }
+
+  delete(serviceId: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${serviceId}`);
+  }
+}

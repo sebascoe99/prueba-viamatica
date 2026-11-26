@@ -15,13 +15,16 @@ public class AttentionTypeConfiguration : IEntityTypeConfiguration<AttentionType
         builder.Property(a => a.AttentionTypeId).HasMaxLength(3);
         builder.Property(a => a.Description).HasMaxLength(100).IsRequired();
 
+        builder.HasQueryFilter(a => !a.IsDeleted);
+
+        var seedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         builder.HasData(
-            new AttentionType { AttentionTypeId = AttentionTypes.AtencionCliente, Description = "Atención al cliente" },
-            new AttentionType { AttentionTypeId = AttentionTypes.ContratacionServicio, Description = "Contratación de servicio" },
-            new AttentionType { AttentionTypeId = AttentionTypes.PagoServicio, Description = "Pago de servicio" },
-            new AttentionType { AttentionTypeId = AttentionTypes.CambioServicio, Description = "Cambio de servicio" },
-            new AttentionType { AttentionTypeId = AttentionTypes.CambioFormaPago, Description = "Cambio de forma de pago" },
-            new AttentionType { AttentionTypeId = AttentionTypes.CancelacionContrato, Description = "Cancelación de contrato" });
+            new AttentionType { AttentionTypeId = AttentionTypes.AtencionCliente, Description = "Atención al cliente", CreatedAt = seedDate },
+            new AttentionType { AttentionTypeId = AttentionTypes.ContratacionServicio, Description = "Contratación de servicio", CreatedAt = seedDate },
+            new AttentionType { AttentionTypeId = AttentionTypes.PagoServicio, Description = "Pago de servicio", CreatedAt = seedDate },
+            new AttentionType { AttentionTypeId = AttentionTypes.CambioServicio, Description = "Cambio de servicio", CreatedAt = seedDate },
+            new AttentionType { AttentionTypeId = AttentionTypes.CambioFormaPago, Description = "Cambio de forma de pago", CreatedAt = seedDate },
+            new AttentionType { AttentionTypeId = AttentionTypes.CancelacionContrato, Description = "Cancelación de contrato", CreatedAt = seedDate });
     }
 }
 

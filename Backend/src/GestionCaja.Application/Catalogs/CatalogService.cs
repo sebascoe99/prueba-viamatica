@@ -12,6 +12,7 @@ public class ServiceResponse
     public string ServiceDescription { get; set; } = string.Empty;
     public int SpeedMbps { get; set; }
     public decimal Price { get; set; }
+    public bool Active { get; set; }
     public List<string> Devices { get; set; } = new();
 }
 
@@ -90,6 +91,7 @@ public class CatalogService : ICatalogService
             ServiceDescription = s.ServiceDescription,
             SpeedMbps = s.SpeedMbps,
             Price = s.Price,
+            Active = s.Active,
             Devices = s.Devices.Select(d => d.DeviceName).ToList()
         }).ToList();
     }

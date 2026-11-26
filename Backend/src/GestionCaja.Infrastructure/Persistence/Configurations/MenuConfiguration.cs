@@ -26,7 +26,8 @@ public class MenuConfiguration : IEntityTypeConfiguration<Menu>
             new Menu { MenuId = 4, Name = "Cajas", Route = "/cashes", Icon = "point_of_sale", DisplayOrder = 4, CreatedAt = seedDate },
             new Menu { MenuId = 5, Name = "Asignación de turnos", Route = "/turns", Icon = "confirmation_number", DisplayOrder = 5, CreatedAt = seedDate },
             new Menu { MenuId = 6, Name = "Procesos de caja", Route = "/cash-process", Icon = "payments", DisplayOrder = 6, CreatedAt = seedDate },
-            new Menu { MenuId = 7, Name = "Clientes", Route = "/clients", Icon = "badge", DisplayOrder = 7, CreatedAt = seedDate });
+            new Menu { MenuId = 7, Name = "Clientes", Route = "/clients", Icon = "badge", DisplayOrder = 7, CreatedAt = seedDate },
+            new Menu { MenuId = 8, Name = "Servicios", Route = "/services", Icon = "router", DisplayOrder = 8, CreatedAt = seedDate });
     }
 }
 
@@ -52,6 +53,7 @@ public class RolMenuConfiguration : IEntityTypeConfiguration<RolMenu>
             new RolMenu { RolId = Roles.Administrador, MenuId = 2 },
             new RolMenu { RolId = Roles.Administrador, MenuId = 3 },
             new RolMenu { RolId = Roles.Administrador, MenuId = 4 },
+            new RolMenu { RolId = Roles.Administrador, MenuId = 8 },
             new RolMenu { RolId = Roles.Gestor, MenuId = 1 },
             new RolMenu { RolId = Roles.Gestor, MenuId = 3 },
             new RolMenu { RolId = Roles.Gestor, MenuId = 4 },

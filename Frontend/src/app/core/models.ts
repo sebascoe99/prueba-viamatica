@@ -99,6 +99,7 @@ export interface ServicePlan {
   serviceDescription: string;
   speedMbps: number;
   price: number;
+  active: boolean;
   devices: string[];
 }
 

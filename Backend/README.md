@@ -92,9 +92,16 @@ migración `MenuSeedAndTurnFunction` y la usa `POST /api/turns`.
 | Turnos | `/api/turns` | Gestor y cajero |
 | Contratos | `/api/contracts` | Cajero |
 | Pagos | `/api/payments` | Cajero |
-| Catálogos | `/api/catalogs` | Autenticado |
+| Servicios y equipos | `/api/services`, `/api/devices` | Administrador |
+| Formas de pago | `/api/method-payments` | Administrador |
+| Tipos de atención | `/api/attention-types` | Administrador |
+| Catálogos (consulta) | `/api/catalogs` | Autenticado |
 | Menú | `/api/menu` | Autenticado |
 | Indicadores | `/api/dashboard` | Autenticado; `indicators` solo administrador |
+
+Los catálogos de estados (usuario, atención y contrato) y los roles son de solo lectura, porque sus
+códigos forman parte de las reglas del sistema. El menú se administra por migración, ya que cada
+opción corresponde a una ruta del frontend.
 
 El detalle de cada endpoint está en Swagger y en la colección de Postman (`../postman`).
 

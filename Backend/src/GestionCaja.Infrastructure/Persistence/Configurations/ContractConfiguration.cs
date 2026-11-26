@@ -33,11 +33,14 @@ public class MethodPaymentConfiguration : IEntityTypeConfiguration<MethodPayment
         builder.Property(m => m.MethodPaymentId).ValueGeneratedNever();
         builder.Property(m => m.Description).HasMaxLength(50).IsRequired();
 
+        builder.HasQueryFilter(m => !m.IsDeleted);
+
+        var seedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         builder.HasData(
-            new MethodPayment { MethodPaymentId = 1, Description = "Efectivo" },
-            new MethodPayment { MethodPaymentId = 2, Description = "Tarjeta de crédito" },
-            new MethodPayment { MethodPaymentId = 3, Description = "Tarjeta de débito" },
-            new MethodPayment { MethodPaymentId = 4, Description = "Transferencia bancaria" });
+            new MethodPayment { MethodPaymentId = 1, Description = "Efectivo", CreatedAt = seedDate },
+            new MethodPayment { MethodPaymentId = 2, Description = "Tarjeta de crédito", CreatedAt = seedDate },
+            new MethodPayment { MethodPaymentId = 3, Description = "Tarjeta de débito", CreatedAt = seedDate },
+            new MethodPayment { MethodPaymentId = 4, Description = "Transferencia bancaria", CreatedAt = seedDate });
     }
 }
 

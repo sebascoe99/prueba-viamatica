@@ -141,11 +141,27 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasColumnType("character varying(3)")
                         .HasColumnName("attention_type_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("AttentionTypeId")
                         .HasName("pk_attentiontype");
@@ -156,32 +172,44 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         new
                         {
                             AttentionTypeId = "AC",
-                            Description = "Atención al cliente"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Atención al cliente",
+                            IsDeleted = false
                         },
                         new
                         {
                             AttentionTypeId = "CS",
-                            Description = "Contratación de servicio"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Contratación de servicio",
+                            IsDeleted = false
                         },
                         new
                         {
                             AttentionTypeId = "PS",
-                            Description = "Pago de servicio"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Pago de servicio",
+                            IsDeleted = false
                         },
                         new
                         {
                             AttentionTypeId = "CA",
-                            Description = "Cambio de servicio"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cambio de servicio",
+                            IsDeleted = false
                         },
                         new
                         {
                             AttentionTypeId = "FP",
-                            Description = "Cambio de forma de pago"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cambio de forma de pago",
+                            IsDeleted = false
                         },
                         new
                         {
                             AttentionTypeId = "CC",
-                            Description = "Cancelación de contrato"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cancelación de contrato",
+                            IsDeleted = false
                         });
                 });
 
@@ -628,6 +656,16 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                             IsDeleted = false,
                             Name = "Clientes",
                             Route = "/clients"
+                        },
+                        new
+                        {
+                            MenuId = 8,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DisplayOrder = 8,
+                            Icon = "router",
+                            IsDeleted = false,
+                            Name = "Servicios",
+                            Route = "/services"
                         });
                 });
 
@@ -637,11 +675,27 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("method_payment_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("MethodPaymentId")
                         .HasName("pk_methodpayment");
@@ -652,22 +706,30 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         new
                         {
                             MethodPaymentId = 1,
-                            Description = "Efectivo"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Efectivo",
+                            IsDeleted = false
                         },
                         new
                         {
                             MethodPaymentId = 2,
-                            Description = "Tarjeta de crédito"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Tarjeta de crédito",
+                            IsDeleted = false
                         },
                         new
                         {
                             MethodPaymentId = 3,
-                            Description = "Tarjeta de débito"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Tarjeta de débito",
+                            IsDeleted = false
                         },
                         new
                         {
                             MethodPaymentId = 4,
-                            Description = "Transferencia bancaria"
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Transferencia bancaria",
+                            IsDeleted = false
                         });
                 });
 
@@ -844,6 +906,11 @@ namespace GestionCaja.Infrastructure.Persistence.Migrations
                         {
                             RolId = 1,
                             MenuId = 4
+                        },
+                        new
+                        {
+                            RolId = 1,
+                            MenuId = 8
                         },
                         new
                         {

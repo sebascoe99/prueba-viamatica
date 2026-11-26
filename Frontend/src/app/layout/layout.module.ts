@@ -34,6 +34,12 @@ const routes: Routes = [
         loadChildren: () => import('../features/cashes/cashes.module').then((m) => m.CashesModule),
       },
       {
+        path: 'services',
+        canActivate: [roleGuard],
+        data: { roles: [ROLES.Administrador] },
+        loadChildren: () => import('../features/services/services.module').then((m) => m.ServicesModule),
+      },
+      {
         path: 'turns',
         canActivate: [roleGuard],
         data: { roles: [ROLES.Gestor] },
