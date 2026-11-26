@@ -16,5 +16,31 @@ services:
       timeout: 3s
       retries: 10
 
+  api:
+    build: ./Backend
+    container_name: gestioncaja-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=gestioncaja;Username=gestioncaja;Password=gestioncaja123
+      Jwt__Key: GestionCaja-Clave-De-Firma-JWT-Solo-Para-Desarrollo-2026
+      Encryption__Key: GestionCaja-Clave-De-Cifrado-AES-Solo-Para-Desarrollo-2026
+      Cors__AllowedOrigins__0: http://localhost:8081
+    ports:
+      - "8080:8080"
+    volumes:
+      - gestioncaja-logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./Frontend
+    container_name: gestioncaja-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+
 volumes:
   gestioncaja-data:
+  gestioncaja-logs:

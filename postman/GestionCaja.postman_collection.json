@@ -1,0 +1,1428 @@
+{
+  "info": {
+    "name": "Gestion de Caja API",
+    "description": "CRUD de cada tabla, registro de usuarios y login.\n\nEjecute primero un request de la carpeta \"Auth\": el token se guarda solo en la variable {{token}} y lo usan los demas requests.\n\nCada carpeta indica con que rol se debe iniciar sesion.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login administrador",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"admin2026\",\n  \"password\": \"Admin2026*\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.collectionVariables.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login gestor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"gestor2026\",\n  \"password\": \"Gestor2026\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.collectionVariables.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login cajero",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"cajero2027\",\n  \"password\": \"Cajero2027\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.collectionVariables.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Usuario autenticado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Recuperar contraseña",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/recover-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "recover-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"cajero2028\",\n  \"identification\": \"0966666666\",\n  \"email\": \"b@test.com\",\n  \"newPassword\": \"Cajero2028\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios (administrador o gestor)",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users?rolId=&statusId=&search=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "rolId",
+                  "value": ""
+                },
+                {
+                  "key": "statusId",
+                  "value": ""
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"cajero2050\",\n  \"password\": \"Cajero2050\",\n  \"firstName\": \"Mario\",\n  \"lastName\": \"Vera\",\n  \"email\": \"mario@correo.com\",\n  \"identification\": \"0912345678\",\n  \"rolId\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Carga masiva de usuarios",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "bulk"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"userName\": \"cajero2051\",\n    \"password\": \"Cajero2050\",\n    \"firstName\": \"Mario\",\n    \"lastName\": \"Vera\",\n    \"email\": \"mario@correo.com\",\n    \"identification\": \"0912345671\",\n    \"rolId\": 3\n  },\n  {\n    \"userName\": \"gestor2052\",\n    \"password\": \"Gestor2052\",\n    \"firstName\": \"Mario\",\n    \"lastName\": \"Vera\",\n    \"email\": \"mario@correo.com\",\n    \"identification\": \"0912345672\",\n    \"rolId\": 2\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "Actualizar usuario (administrador)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "4"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ana Maria\",\n  \"lastName\": \"Vera\",\n  \"email\": \"ana@test.com\",\n  \"identification\": \"0933333333\",\n  \"rolId\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado (administrador)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/4/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "4",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statusId\": \"INA\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Aprobar usuario (administrador)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/3/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "3",
+                "approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario (administrador)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "6"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clientes (cajero)",
+      "item": [
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients?search=&active=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "active",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por identificacion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/by-identification/0912345678",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "by-identification",
+                "0912345678"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Luis\",\n  \"lastName\": \"Paz\",\n  \"identification\": \"0912345670\",\n  \"email\": \"luis@correo.com\",\n  \"phoneNumber\": \"0991234567\",\n  \"address\": \"Av. 9 de Octubre 1234 y Malecon\",\n  \"referenceAddress\": \"Frente al edificio de la gobernacion\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Carga masiva de clientes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "bulk"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"Luis\",\n    \"lastName\": \"Paz\",\n    \"identification\": \"0912345671\",\n    \"email\": \"luis@correo.com\",\n    \"phoneNumber\": \"0991234567\",\n    \"address\": \"Av. 9 de Octubre 1234 y Malecon\",\n    \"referenceAddress\": \"Frente al edificio de la gobernacion\"\n  },\n  {\n    \"name\": \"Ana\",\n    \"lastName\": \"Paz\",\n    \"identification\": \"0912345672\",\n    \"email\": \"luis@correo.com\",\n    \"phoneNumber\": \"0991234567\",\n    \"address\": \"Av. 9 de Octubre 1234 y Malecon\",\n    \"referenceAddress\": \"Frente al edificio de la gobernacion\"\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Luis Alberto\",\n  \"lastName\": \"Paz\",\n  \"identification\": \"0912345678\",\n  \"email\": \"luis@correo.com\",\n  \"phoneNumber\": \"0991234567\",\n  \"address\": \"Av. 9 de Octubre 1234 y Malecon\",\n  \"referenceAddress\": \"Frente al edificio de la gobernacion\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/1/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "1",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "2"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cajas (administrador o gestor; operacion: cajero)",
+      "item": [
+        {
+          "name": "Listar cajas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar caja",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear caja",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cashDescription\": \"Caja 3\",\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Actualizar caja",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cashDescription\": \"Caja 1\",\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar caja",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "3"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cajeros disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/available-cashiers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "available-cashiers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Asignar cajero (gestor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1/cashiers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1",
+                "cashiers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Retirar cajero (gestor)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1/cashiers/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1",
+                "cashiers",
+                "4"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mis cajas (cajero)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/mine",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "mine"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Abrir caja (cajero)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1/open",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1",
+                "open"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cerrar caja (cajero)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cashes/1/close",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cashes",
+                "1",
+                "close"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Turnos (gestor; atencion: cajero)",
+      "item": [
+        {
+          "name": "Listar turnos del dia",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns?cashId=&date=&statusId=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns"
+              ],
+              "query": [
+                {
+                  "key": "cashId",
+                  "value": ""
+                },
+                {
+                  "key": "date",
+                  "value": ""
+                },
+                {
+                  "key": "statusId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar turno",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Asignar turno (gestor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cashId\": 1,\n  \"attentionTypeId\": \"AC\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reasignar turno (gestor)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cashId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar turno (gestor)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Iniciar atencion (cajero)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns/1/attend",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns",
+                "1",
+                "attend"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Finalizar atencion (cajero)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/turns/1/finish",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turns",
+                "1",
+                "finish"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contratos y pagos (cajero)",
+      "item": [
+        {
+          "name": "Listar contratos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts?clientId=1&statusId=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts"
+              ],
+              "query": [
+                {
+                  "key": "clientId",
+                  "value": "1"
+                },
+                {
+                  "key": "statusId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar contrato",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Contratar servicio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": 1,\n  \"serviceId\": 1,\n  \"methodPaymentId\": 1,\n  \"months\": 12\n}"
+            }
+          }
+        },
+        {
+          "name": "Cambio de servicio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts/1/change-service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts",
+                "1",
+                "change-service"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceId\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Cambio de forma de pago",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts/1/change-payment-method",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts",
+                "1",
+                "change-payment-method"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"methodPaymentId\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancelar contrato",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts/1/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts",
+                "1",
+                "cancel"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar contrato",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contracts",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar pagos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payments?clientId=1&contractId=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "clientId",
+                  "value": "1"
+                },
+                {
+                  "key": "contractId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar pago",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contractId\": 1,\n  \"amount\": 25\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalogos y menu",
+      "item": [
+        {
+          "name": "Menu del rol",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/menu",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "menu"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "roles"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Estados de usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/user-statuses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "user-statuses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Tipos de atencion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/attention-types",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "attention-types"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Estados de contrato",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/contract-statuses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "contract-statuses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Formas de pago",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/method-payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "method-payments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Servicios y equipos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/catalogs/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "catalogs",
+                "services"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Indicadores",
+      "item": [
+        {
+          "name": "Bienvenida",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/welcome",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "welcome"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Indicadores (administrador)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/indicators?from=2026-11-25&to=2026-11-25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "indicators"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2026-11-25"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-11-25"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
