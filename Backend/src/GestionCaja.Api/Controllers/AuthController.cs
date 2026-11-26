@@ -1,5 +1,6 @@
-using System.Security.Claims;
 using GestionCaja.Application.Auth;
+using GestionCaja.Application.Common.Interfaces;
+using GestionCaja.Application.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,14 @@ namespace GestionCaja.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly IUserService _userService;
+    private readonly ICurrentUser _currentUser;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IUserService userService, ICurrentUser currentUser)
     {
         _authService = authService;
+        _userService = userService;
+        _currentUser = currentUser;
     }
 
     /// <summary>Valida las credenciales y devuelve el token JWT.</summary>
@@ -21,8 +26,16 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
-        var response = await _authService.LoginAsync(request, cancellationToken);
-        return Ok(response);
+        return Ok(await _authService.LoginAsync(request, cancellationToken));
+    }
+
+    /// <summary>Cambia la contraseña validando usuario, identificación y correo.</summary>
+    [HttpPost("recover-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> RecoverPassword([FromBody] RecoverPasswordRequest request, CancellationToken cancellationToken)
+    {
+        await _userService.RecoverPasswordAsync(request, cancellationToken);
+        return Ok(new { message = "La contraseña se actualizó correctamente" });
     }
 
     /// <summary>Marca la sesión del usuario como inactiva.</summary>
@@ -30,8 +43,7 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        await _authService.LogoutAsync(userId, cancellationToken);
+        await _authService.LogoutAsync(_currentUser.UserId, cancellationToken);
         return NoContent();
     }
 
@@ -42,9 +54,9 @@ public class AuthController : ControllerBase
     {
         return Ok(new
         {
-            userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-            userName = User.FindFirstValue(ClaimTypes.Name),
-            rol = User.FindFirstValue(ClaimTypes.Role)
+            userId = _currentUser.UserId,
+            userName = _currentUser.UserName,
+            rolId = _currentUser.RolId
         });
     }
 }
